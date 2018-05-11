@@ -38,9 +38,7 @@ class Login extends Component {
         if (!username && !password) return this.setState({ noUsername: true, noPassword: false })
         if (username && !password) return this.setState({ noUsername: false, noPassword: true })
         if (!username && password) return this.setState({ noUsername: true, noPassword: false })
-        
-        // check if logging in or singing up
-        // call redux function based on that
+
     }
 
     render() {
