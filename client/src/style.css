@@ -1,0 +1,174 @@
+/* ALL */
+
+@import url('https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', sans-serif;
+}
+botton {
+    cursor: pointer;
+}
+::placeholder {
+    color: #aaa;
+}
+.red {
+    color: #f00;
+}
+.app {
+    min-width: 400px;
+}
+
+/* TOPNAV COMPONENT */
+
+.topNav {
+    display: flex;
+    justify-content: flex-end;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+.topNavTitleContainer {
+    margin: auto;
+    padding-left: 32px;
+    text-decoration: none;
+}
+.topNavTitle {
+    color: black;
+    transition: .2s;
+    padding: 5px 0;
+}
+.topNavTitle:hover {
+    color: plum;
+    cursor: pointer;
+    transition: .2s;
+}
+.topNavButton {
+    position: relative;
+    font-size: 1.7em;
+    font-weight: 600;
+    color: #666;
+    padding: 0 10px;
+    margin: 5px;
+    border: none;
+    border-radius: .1em;
+    outline: none;
+    cursor: pointer;
+    transition: .2s;
+    z-index: 1;
+}
+.topNavButton:hover {
+    background: plum;
+    transition: .2s;
+    color: black;
+}
+.topNavMenuContainer {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background: transparent;
+}
+.topNavMenu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 48px;
+    right: 5px;
+    background: #888;
+    list-style: none;
+    width: 12em;
+}
+.topNavMenuItem {
+    padding: 10px 0;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1em;
+    background: transparent;
+    border: none;
+    color: #000;
+    text-decoration: none;
+}
+.topNavMenuItem:hover {
+    background: #ddd;
+    box-shadow: inset 0 0 5px plum;
+}
+
+/* FOOTER COMPONENT */
+
+.footer {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+}
+
+/* LOGIN COMPONENT */
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 85vh;
+    background: #eee;
+    min-height: 450px;    
+}
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #aaa;
+    border-radius: .3em;
+    padding: 1em;
+    width: 400px;
+    background: #fff;
+}
+.loginForm > * {
+    font-size: 1em;
+    padding: .7em;
+    border-radius: .3em;
+}
+.login > h2 {
+    padding: 1em;
+}
+.login > p {
+    padding: 0 0 1em 0;
+}
+.loginForm > input {
+    margin-bottom: 1em;
+    border: 1px solid #aaa;
+    outline: none;
+}
+.loginForm > input:focus {
+    border: 1px solid plum;
+}
+.loginForm > button {
+    background: plum;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+.loginForm > button:hover {
+    background: rgb(209, 152, 209);
+}
+.signup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    border: 1px solid #aaa;
+    padding: 1em;
+    margin-top: 1em;
+    border-radius: .3em;
+}
+.signup > p {
+    margin: 0 5px 0 0;
+    color: black;
+    font-size: 1em;
+}
+.signup > button {
+    border: none;
+    background: transparent;
+    font-family: 'Lato', sans-serif;
+    color: plum;
+    cursor: pointer;
+    outline: none;
+    font-size: 1em
+}
