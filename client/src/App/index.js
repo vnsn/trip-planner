@@ -8,12 +8,12 @@ import TopNav from "./TopNav";
 import Footer from "./Footer";
 
 // ROUTES
-import Login from "./Login";
-import About from './About';
-import Home from './Home';
-import NewTrip from './NewTrip';
-import TripDisplay from './TripDisplay';
-import LoggedOut from './LoggedOut';
+import Login from "./pages/Login";
+import Home from './pages/Home';
+import TripDisplay from './pages/TripDisplay';
+import NewTrip from './pages/NewTrip';
+import LoggedOut from './pages/LoggedOut';
+import About from './pages/About';
 
 function App() {
     return (
@@ -21,11 +21,11 @@ function App() {
             <TopNav />
             <Switch>
                 <Route exact path='/' component={Login} />
-                <Route path='/about' component={About} />
                 <Route path='/home' component={Home} />
-                <Route path='/new-trip' component={NewTrip} />
                 <Route path='/trip-display' component={TripDisplay} />
+                <Route path='/new-trip' component={NewTrip} />
                 <Route path='/logged-out' component={LoggedOut} />
+                <Route path='/about' component={About} />
             </Switch>
             <Footer />
         </div>
