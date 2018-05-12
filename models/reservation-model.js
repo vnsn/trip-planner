@@ -1,13 +1,13 @@
 const mongoose = required ('mongoose');
 const { Schema } = mongoose;
 
-const tripSchema = new Schema({
+const reservationSchema = new Schema({
     name: {
         required: true,
         type: String,
     },
     dateIn: {
-        required: true,
+        // required: true,
         type: Date
     },
     dateOut: {
@@ -22,12 +22,11 @@ const tripSchema = new Schema({
     confirmationNumber: {
         type: Number
     },
-    notification: {
-        required: true,
-        type: boolean
+    howEarly: {
+        type: String
     },
     seatNumber: {
-        type: Number
+        type: String
     },
     phone: {
         type: Number
@@ -37,5 +36,5 @@ const tripSchema = new Schema({
     }
 })
 
-const reservationModel = mongoose.model("reservation", tripSchema);
+const reservationModel = mongoose.model("Reservation", reservationSchema);
 module.exports = reservationModel;
