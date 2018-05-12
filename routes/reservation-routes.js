@@ -1,6 +1,6 @@
 const express = require("express");
 const reservationRouter = express.Router();
-const ReservationModel = require("../routes/ReservationModel");
+const ReservationModel = require("../models/reservation-model");
 
 reservationRouter.route("/")
     .get((req, res) => {
