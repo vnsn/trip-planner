@@ -31,17 +31,18 @@ class DestinationForm extends Component {
     render() {
         const { destName, destStart, destEnd, climate } = this.state.inputs;
         return (
-            <form onSubmit={this.props.addDestination} className='destForm'>
-                <h3>Destination</h3>
-                <label htmlFor="destName"></label>
-                <input onChange={this.handleChange} name="destName" value={destName} type="text" />
-                <label htmlFor="destStart"></label>
-                <input onChange={this.handleChange} name="destStart" value={destStart} type="text" />
-                <label htmlFor="destEnd"></label>
-                <input onChange={this.handleChange} name="destEnd" value={destEnd} type="text" />
-                <label htmlFor="climate"></label>
-                <input onChange={this.handleChange} name="climate" value={climate} type="text" />
-                <button>Submit</button>
+            <form onSubmit={(e)=>this.props.addDestination(e, this.state.inputs)} className='destForm'>
+                <button name='dest' className='closeButton' onClick={this.props.closeForm}>&times;</button>
+                <h3>+ Destination</h3>
+                <label htmlFor="destName">Name</label>
+                <input onChange={this.handleChange} name="destName" value={destName} placeholder="Rome" type="text" />
+                <label htmlFor="destStart">Arrival Date</label>
+                <input onChange={this.handleChange} name="destStart" value={destStart} placeholder="MM/DD/YYYY" type="text" />
+                <label htmlFor="destEnd">Departure Date</label>
+                <input onChange={this.handleChange} name="destEnd" value={destEnd} placeholder="MM/DD/YYYY" type="text" />
+                <label htmlFor="climate">Climate</label>
+                <input onChange={this.handleChange} name="climate" value={climate} placeholder="warm to hot" type="text" />
+                <button>Add</button>
             </form>
         )
     }
