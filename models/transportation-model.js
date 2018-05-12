@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const transportModel = new Schema ({
+const transportSchema = new Schema ({
     name: {
         required: true,
         type: String
@@ -29,6 +29,6 @@ const transportModel = new Schema ({
     cost: {
         type: Number
     }
-});
-const transportModel = mongoose.model('Transportation', transportSchema);
-module.exports = transportModel;
+}, {timestamps: true});
+const TransportationModel = mongoose.model('Transportation', transportSchema);
+module.exports = TransportationModel;
