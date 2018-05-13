@@ -6,6 +6,8 @@ require("dotenv").config();
 const logger = require("./middleware/logger");
 const tripRouter = require("./routes/trip-routes");
 const destinationRouter = require("./routes/destination-routes");
+const transportationRouter = require("./routes/transportation-routes");
+const reservationRouter = require("./routes/reservation-routes");
 
 // for deploying to Heroku
 const path = require("path");
@@ -23,6 +25,8 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 //routes
 app.use("/api/trips", tripRouter);
 app.use("/api/destinations", destinationRouter);
+app.use("/api/transportation", transportationRouter);
+app.use("/api/reservations", reservationRouter);
 
 // database
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/organizer", err => {
