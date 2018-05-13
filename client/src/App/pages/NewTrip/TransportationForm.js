@@ -1,18 +1,13 @@
 import React, { Component } from 'react'
 
-////////// THIS FORM IS A TEMPLATE FROM DESTINATION FORM /////// I ONLY JUST STARTED IT - MATT
-
 class TransportationForm extends Component {
     constructor(props) {
         super(props);
         this.initialState = {
             inputs: {
-                destName: "",
-                destStart: "",
-                destEnd: "",
-                climate: "",
-                transportations: [],
-                reservations: []
+                name: "",
+                departDate: "",
+                arriveDate: ""
             }
         }
         this.state = this.initialState;
@@ -31,19 +26,17 @@ class TransportationForm extends Component {
     }
 
     render() {
-        const { destName, destStart, destEnd, climate } = this.state.inputs;
+        const { name, departDate, arriveDate } = this.state.inputs;
         return (
-            <form onSubmit={(e)=>this.props.addDestination(e, this.state.inputs)} className='destForm'>
-                <button name='dest' className='closeButton' onClick={this.props.closeForm}>&times;</button>
-                <h3>+ Destination</h3>
-                <label htmlFor="destName">Name</label>
-                <input onChange={this.handleChange} name="destName" value={destName} placeholder="Rome" type="text" />
-                <label htmlFor="destStart">Arrival Date</label>
-                <input onChange={this.handleChange} name="destStart" value={destStart} placeholder="MM/DD/YYYY" type="text" />
-                <label htmlFor="destEnd">Departure Date</label>
-                <input onChange={this.handleChange} name="destEnd" value={destEnd} placeholder="MM/DD/YYYY" type="text" />
-                <label htmlFor="climate">Climate</label>
-                <input onChange={this.handleChange} name="climate" value={climate} placeholder="warm to hot" type="text" />
+            <form onSubmit={(e)=>this.props.addTransportation(e, this.state.inputs)} className='genForm'>
+                <button name='trans' className='closeButton' onClick={this.props.closeForm}>&times;</button>
+                <h3>+ Transportation</h3>
+                <label htmlFor="name">Name</label>
+                <input onChange={this.handleChange} name="name" value={name} placeholder="Train" type="text" />
+                <label htmlFor="departDate">Depart Date</label>
+                <input onChange={this.handleChange} name="departDate" value={departDate} type="date" />
+                <label htmlFor="arriveDate">Arrive Date</label>
+                <input onChange={this.handleChange} name="arriveDate" value={arriveDate} type="date" />
                 <button>Add</button>
             </form>
         )

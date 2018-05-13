@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import NewTripForm from "./NewTripForm";
 import DestinationForm from './DestinationForm';
+import TransportationForm from './TransportationForm';
+import AccomodationForm from './AccomodationForm';
+import DestinationsData from './DestinationsData';
+import TransportationsData from './TransportationsData';
+import AccomodationsData from './AccomodationsData';
 import { connect } from 'react-redux';
 import { addTrip, getTrips } from '../../../redux/trips-reducer';
 
@@ -14,6 +19,8 @@ class NewTrip extends Component {
                 endDate: "",
                 destinations: []
             },
+            transportations: [],
+            accomodations: [],
             noName: false,
             noStart: false,
             initialSubmit: false,
@@ -48,6 +55,14 @@ class NewTrip extends Component {
             }
         })
     }
+    addTransportation = (e, trans) => {
+        e.preventDefault();
+        this.setState(prevState => ({transportations: [...prevState.transportations, trans]}))
+    }
+    addAccomodation = (e, accom) => {
+        e.preventDefault();
+        this.setState(prevState => ({accomodations: [...prevState.accomodations, accom]}))
+    }
     openForm = (e) => {
         switch (e.target.name) {
             case 'dest': 
@@ -74,7 +89,8 @@ class NewTrip extends Component {
     }
 
     render() {
-        const { name, startDate, endDate, destinations } = this.state.trip
+        const { transportations, accomodations } = this.state;
+        const { name, startDate, endDate, destinations } = this.state.trip;
         return (
             <div className='newTrip'>
 
@@ -105,37 +121,35 @@ class NewTrip extends Component {
                                     </label> : null}
                             </span> : null}
 
-                        {/* DESTINATIONS DATA*/}
+                        {/* DESTINATIONS DATA */}
 
-                        {destinations.map((dest, i) =>
-                            <div className='destination' key={i}>
-                                {console.log(this.state)}
-                                <h4>{dest.destName}</h4>
-                                {dest.destStart ?
-                                    <span className='destDates'>
-                                        <label className='destDate startDate'>
-                                            Destination Start:
-                                            <p>{dest.destStart}</p>
-                                        </label>
-                                        {dest.destEnd ?
-                                            <label className='destDate endDate'>
-                                                Destination End:
-                                                <p>{dest.destEnd}</p>
-                                            </label> : null}
-                                    </span> : null}
-                                {dest.climate ?
-                                    <label className='climate'>
-                                        Climate:
-                                        <p>{dest.climate}</p>
-                                    </label> : null}
-                            </div>
-                        )}
+                        <DestinationsData destinations={destinations} />
                         
-                        {/* ADD DESTINATION FORM/TOGGLE */}
+                        {/* ADD DESTINATION FORM/TOGGLE BUTTON */}
                         
                         {this.state.addingDestination ?
                         <DestinationForm addDestination={this.addDestination} closeForm={this.openForm} /> :
                         <button className='addFormButton' name="dest" onClick={this.openForm}>+ Destination</button>}
+
+                        {/* TRANSPORTATIONS DATA */}
+
+                        <TransportationsData transportations={transportations} />
+                        
+                        {/* ADD TRANSPORTATION FORM/TOGGLE */}
+                        
+                        {this.state.addingTransportation ?
+                        <TransportationForm addTransportation={this.addTransportation} closeForm={this.openForm} /> :
+                        <button className='addFormButton' name="trans" onClick={this.openForm}>+ Transportation</button>}
+
+                        {/* ACCOMODATIONS DATA */}
+
+                        <AccomodationsData accomodations={accomodations} />
+                        
+                        {/* ADD ACCOMODATION FORM/TOGGLE */}
+                        
+                        {this.state.addingAccomodation ?
+                        <AccomodationForm addAccomodation={this.addAccomodation} closeForm={this.openForm} /> :
+                        <button className='addFormButton' name="accom" onClick={this.openForm}>+ Accomodation</button>}
 
                         
 
