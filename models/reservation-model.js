@@ -6,6 +6,10 @@ const reservationSchema = new Schema({
         required: true,
         type: String,
     },
+    type: {
+        required: true,
+        type: String
+    },
     dateIn: {
         // required: true,
         type: Date
@@ -18,6 +22,9 @@ const reservationSchema = new Schema({
     },
     timeOut: {
         type: String
+    },
+    reservationMade: {
+        type: Boolean
     },
     confirmationNumber: {
         type: Number
@@ -34,7 +41,7 @@ const reservationSchema = new Schema({
     address: {
         type: String
     }
-})
+}, {timestamps: true});
 
 const reservationModel = mongoose.model("Reservation", reservationSchema);
 module.exports = reservationModel;
