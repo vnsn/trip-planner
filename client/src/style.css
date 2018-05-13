@@ -16,6 +16,9 @@ input {
 ::placeholder {
     color: #aaa;
 }
+::selection {
+    background: plum;
+}
 .red {
     color: #f00;
 }
@@ -228,9 +231,9 @@ input {
     background: plum;
 }
 
-/* DESTINATION FORM */
+/* DESTINATION FORM, TRANSPORTATION FORM, ACCOMODATION FORM */
 
-.destForm {
+.genForm {
     display: flex;
     flex-direction: column;
     border: 1px solid #aaa;
@@ -240,15 +243,15 @@ input {
     margin-top: 1em;
     position: relative;
 }
-.destForm > * {
+.genForm > * {
     font-size: 1em;
     padding: .5em;
     border-radius: .3em;
 }
-.destForm > button {
+.genForm > button {
     margin-top: 1em;
 }
-.destForm > button:hover {
+.genForm > button:hover {
     background: plum;
 }
 

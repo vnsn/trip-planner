@@ -10,9 +10,9 @@ function NewTripForm(props) {
             <label htmlFor="tripName">Trip Name</label>
             <input onChange={props.handleChange} name="name" value={name} placeholder="Tour of Italy" type="text" />
             <label htmlFor="tripStartDate">Start Date</label>
-            <input onChange={props.handleChange} name="startDate" value={startDate} placeholder="MM/DD/YYYY" type="text" />
+            <input onChange={props.handleChange} name="startDate" value={startDate} type="date" />
             <label htmlFor="tripEndDate">End Date</label>
-            <input onChange={props.handleChange} name="endDate" value={endDate} placeholder="MM/DD/YYYY" type="text" />
+            <input onChange={props.handleChange} name="endDate" value={endDate} type="date" />
             <button onClick={props.createTrip}>Submit</button>
         </form>
     )
