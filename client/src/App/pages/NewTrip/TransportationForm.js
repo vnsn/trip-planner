@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import ReservationModal from './ReservationModal';
 
 class TransportationForm extends Component {
     constructor(props) {
@@ -7,8 +8,10 @@ class TransportationForm extends Component {
             inputs: {
                 name: "",
                 departDate: "",
-                arriveDate: ""
-            }
+                arriveDate: "",
+                reservation: false
+            },
+            showResModal: false
         }
         this.state = this.initialState;
     }
@@ -24,11 +27,15 @@ class TransportationForm extends Component {
             }
         })
     }
+    toggleResModal = (e) => {
+        this.setState(prevState => ({ showResModal: !prevState.showResModal }))
+    }
+
 
     render() {
         const { name, departDate, arriveDate } = this.state.inputs;
         return (
-            <form onSubmit={(e)=>this.props.addTransportation(e, this.state.inputs)} className='genForm'>
+            <form onSubmit={(e) => this.props.addTransportation(e, this.state.inputs)} className='genForm'>
                 <button name='trans' className='closeButton' onClick={this.props.closeForm}>&times;</button>
                 <h3>+ Transportation</h3>
                 <label htmlFor="name">Name</label>
@@ -37,6 +44,12 @@ class TransportationForm extends Component {
                 <input onChange={this.handleChange} name="departDate" value={departDate} type="date" />
                 <label htmlFor="arriveDate">Arrive Date</label>
                 <input onChange={this.handleChange} name="arriveDate" value={arriveDate} type="date" />
+                {this.state.showResModal ?
+                    <ReservationModal toggleResModal={this.toggleResModal} /> :
+                    <div>
+                        <label htmlFor="resQ">Reservation?</label>
+                        <button onClick={this.toggleResModal} name="resQ" >Add Reservation</button>
+                    </div>}
                 <button>Add</button>
             </form>
         )

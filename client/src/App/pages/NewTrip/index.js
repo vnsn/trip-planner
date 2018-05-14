@@ -3,6 +3,7 @@ import NewTripForm from "./NewTripForm";
 import DestinationForm from './DestinationForm';
 import TransportationForm from './TransportationForm';
 import AccomodationForm from './AccomodationForm';
+import NewTripData from './NewTripData';
 import DestinationsData from './DestinationsData';
 import TransportationsData from './TransportationsData';
 import AccomodationsData from './AccomodationsData';
@@ -13,20 +14,22 @@ class NewTrip extends Component {
     constructor(props) {
         super(props);
         this.initialState = {
-            trip: {
+            inputs: {
                 name: "",
                 startDate: "",
                 endDate: "",
                 destinations: []
             },
+            trip: {},
             transportations: [],
             accomodations: [],
+            reservations: [],
             noName: false,
             noStart: false,
             initialSubmit: false,
             addingDestination: true,
-            addingTransportation: true,
-            addingAccomodation: true
+            addingTransportation: false,
+            addingAccomodation: false
         }
         this.state = this.initialState;
     }
@@ -35,8 +38,8 @@ class NewTrip extends Component {
         let { name, value } = e.target;
         this.setState(prevState => {
             return {
-                trip: {
-                    ...prevState.trip,
+                inputs: {
+                    ...prevState.inputs,
                     [name]: value
                 }
             }
@@ -57,11 +60,23 @@ class NewTrip extends Component {
     }
     addTransportation = (e, trans) => {
         e.preventDefault();
-        this.setState(prevState => ({transportations: [...prevState.transportations, trans]}))
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                transportations: [...prevState.transportations, trans],
+                addingTransportation: false
+            }
+        })
     }
     addAccomodation = (e, accom) => {
         e.preventDefault();
-        this.setState(prevState => ({accomodations: [...prevState.accomodations, accom]}))
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                accomodations: [...prevState.accomodations, accom],
+                addingAccomodation: false
+            }
+        })
     }
     openForm = (e) => {
         switch (e.target.name) {
@@ -89,45 +104,44 @@ class NewTrip extends Component {
     }
 
     render() {
-        const { transportations, accomodations } = this.state;
-        const { name, startDate, endDate, destinations } = this.state.trip;
+        const { trip, 
+            transportations,
+            accomodations,
+            noName,
+            noStart,
+            initialSubmit,
+            addingDestination,
+            addingTransportation,
+            addingAccomodation } = this.state;
         return (
             <div className='newTrip'>
 
-                {/* ADD TRIP FORM */}
+                {/* INITIAL ADD TRIP FORM */}
 
-                {!this.state.initialSubmit ?
+                {!initialSubmit ?
                     <NewTripForm
                         createTrip={this.createTrip}
                         handleChange={this.handleChange}
-                        trip={this.state.trip}
-                        {...this.state}
+                        trip={trip}
+                        noName={noName}
+                        noStart={noStart}
                     /> :
 
                     // ADDED TRIP DATA //
 
                     <div className='newTripData'>
-                        <h2 className='newTripTitle'>{name}</h2>
-                        {startDate ?
-                            <span className='tripDates'>
-                                <label className='tripDate startDate'>
-                                    Start Date:
-                                    <p>{startDate}</p>
-                                </label>
-                                {endDate ?
-                                    <label className='tripDate  endDate'>
-                                        End Date:
-                                            <p>{endDate}</p>
-                                    </label> : null}
-                            </span> : null}
+                        
+                        {/* GEN NEW TRIP DATA */}
+
+                        <NewTripData trip={trip} />
 
                         {/* DESTINATIONS DATA */}
 
-                        <DestinationsData destinations={destinations} />
+                        <DestinationsData destinations={trip.destinations} />
                         
                         {/* ADD DESTINATION FORM/TOGGLE BUTTON */}
                         
-                        {this.state.addingDestination ?
+                        {addingDestination ?
                         <DestinationForm addDestination={this.addDestination} closeForm={this.openForm} /> :
                         <button className='addFormButton' name="dest" onClick={this.openForm}>+ Destination</button>}
 
@@ -137,7 +151,7 @@ class NewTrip extends Component {
                         
                         {/* ADD TRANSPORTATION FORM/TOGGLE */}
                         
-                        {this.state.addingTransportation ?
+                        {addingTransportation ?
                         <TransportationForm addTransportation={this.addTransportation} closeForm={this.openForm} /> :
                         <button className='addFormButton' name="trans" onClick={this.openForm}>+ Transportation</button>}
 
@@ -147,7 +161,7 @@ class NewTrip extends Component {
                         
                         {/* ADD ACCOMODATION FORM/TOGGLE */}
                         
-                        {this.state.addingAccomodation ?
+                        {addingAccomodation ?
                         <AccomodationForm addAccomodation={this.addAccomodation} closeForm={this.openForm} /> :
                         <button className='addFormButton' name="accom" onClick={this.openForm}>+ Accomodation</button>}
 

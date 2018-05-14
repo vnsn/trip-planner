@@ -62,7 +62,7 @@ export const addTrip = (newTrip) => {
             .then(response => {
                 dispatch({
                     type: 'ADD_TRIP',
-                    newTrip: response.data
+                    newTrip: response.data,
                 })
             })
             .catch(err => {

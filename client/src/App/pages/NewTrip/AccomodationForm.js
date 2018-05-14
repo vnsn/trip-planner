@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import ReservationModal from './ReservationModal';
 
 class AccomodationForm extends Component {
     constructor(props) {
@@ -7,8 +8,10 @@ class AccomodationForm extends Component {
             inputs: {
                 name: "",
                 arriveDate: "",
-                departDate: ""
-            }
+                departDate: "",
+                type: "hotel"
+            },
+            showResModal: false
         }
         this.state = this.initialState;
     }
@@ -37,6 +40,12 @@ class AccomodationForm extends Component {
                 <input onChange={this.handleChange} name="arriveDate" value={arriveDate} type="date" />
                 <label htmlFor="arriveDate">Arrive Date</label>
                 <input onChange={this.handleChange} name="departDate" value={departDate} type="date" />
+                {this.state.showResModal ?
+                    <ReservationModal toggleResModal={this.toggleResModal} /> :
+                    <div>
+                        <label htmlFor="resQ">Reservation?</label>
+                        <button onClick={this.toggleResModal} name="resQ" >Add Reservation</button>
+                    </div>}
                 <button>Add</button>
             </form>
         )
