@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReservationModal from './ReservationModal';
 
-class AccomodationForm extends Component {
+class AccommodationForm extends Component {
     constructor(props) {
         super(props);
         this.initialState = {
@@ -31,9 +31,9 @@ class AccomodationForm extends Component {
     render() {
         const { name, arriveDate, departDate } = this.state.inputs;
         return (
-            <form onSubmit={(e)=>this.props.addAccomodation(e, this.state.inputs)} className='genForm'>
+            <form onSubmit={(e)=>this.props.addAccommodation(e, this.state.inputs)} className='genForm'>
                 <button name='accom' className='closeButton' onClick={this.props.closeForm}>&times;</button>
-                <h3>+ Accomodation</h3>
+                <h3>+ Accommodation</h3>
                 <label htmlFor="name">Name</label>
                 <input onChange={this.handleChange} name="name" value={name} placeholder="Train" type="text" />
                 <label htmlFor="departDate">Depart Date</label>
@@ -52,4 +52,4 @@ class AccomodationForm extends Component {
     }
 }
 
-export default AccomodationForm;
+export default AccommodationForm;
