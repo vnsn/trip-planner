@@ -19,12 +19,11 @@ const transportSchema = new Schema ({
     arriveTime: {
         type: String
     },
-    reservation: {
+    reservationMade: {
         type: Boolean
     },
     modeSelector: {
         type: String,
-        
     },
     cost: {
         type: Number

@@ -17,9 +17,10 @@ const destinationSchema = new Schema({
     },
 
     climate: String,
+    
     type: String,
 
-    transportation: [{
+    transportations: [{
         type: Schema.Types.ObjectId,
         ref: "Transportation"
     }],

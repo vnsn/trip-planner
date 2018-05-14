@@ -15,8 +15,6 @@ class Home extends Component {
     render() {
         const { data, loading, errMsg } = this.props.trips;
 
-        console.log(this.props.trips.data);
-
         if (loading) {
             return <p>Loading... please wait.</p>
         } else if (errMsg) {
