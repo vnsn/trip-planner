@@ -2,31 +2,35 @@ import React, { Component } from 'react'
 import NewTripForm from "./NewTripForm";
 import DestinationForm from './DestinationForm';
 import TransportationForm from './TransportationForm';
-import AccomodationForm from './AccomodationForm';
+import AccommodationForm from './AccommodationForm';
+import NewTripData from './NewTripData';
 import DestinationsData from './DestinationsData';
 import TransportationsData from './TransportationsData';
-import AccomodationsData from './AccomodationsData';
+import AccommodationsData from './AccommodationsData';
 import { connect } from 'react-redux';
-import { addTrip, getTrips } from '../../../redux/trips-reducer';
+import { addTrip, getTrips, editTrip } from '../../../redux/trips-reducer';
+import { addDestination } from '../../../redux/destinations-reducer';
 
 class NewTrip extends Component {
     constructor(props) {
         super(props);
         this.initialState = {
-            trip: {
+            inputs: {
                 name: "",
                 startDate: "",
                 endDate: "",
                 destinations: []
             },
+            trip: {},
             transportations: [],
-            accomodations: [],
+            accommodations: [],
+            reservations: [],
             noName: false,
             noStart: false,
             initialSubmit: false,
             addingDestination: true,
-            addingTransportation: true,
-            addingAccomodation: true
+            addingTransportation: false,
+            addingAccommodation: false
         }
         this.state = this.initialState;
     }
@@ -35,33 +39,38 @@ class NewTrip extends Component {
         let { name, value } = e.target;
         this.setState(prevState => {
             return {
-                trip: {
-                    ...prevState.trip,
+                inputs: {
+                    ...prevState.inputs,
                     [name]: value
                 }
             }
         })
     }
+
     addDestination = (e, dest) => {
+        e.preventDefault();
+        this.props.addDestination(dest);
+        this.props.editTrip(dest, this.props.currentTrip._id);
+    }
+    addTransportation = (e, trans) => {
         e.preventDefault();
         this.setState(prevState => {
             return {
                 ...prevState,
-                trip: {
-                    ...prevState.trip,
-                    destinations: [...prevState.trip.destinations, dest]
-                },
-                addingDestination: false
+                transportations: [...prevState.transportations, trans],
+                addingTransportation: false
             }
         })
     }
-    addTransportation = (e, trans) => {
+    addAccommodation = (e, accom) => {
         e.preventDefault();
-        this.setState(prevState => ({transportations: [...prevState.transportations, trans]}))
-    }
-    addAccomodation = (e, accom) => {
-        e.preventDefault();
-        this.setState(prevState => ({accomodations: [...prevState.accomodations, accom]}))
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                accommodations: [...prevState.accommodations, accom],
+                addingAccommodation: false
+            }
+        })
     }
     openForm = (e) => {
         switch (e.target.name) {
@@ -72,7 +81,7 @@ class NewTrip extends Component {
                 this.setState(prevState => ({addingTransportation: !prevState.addingTransportation}));
                 break;
             case 'accom':
-                this.setState(prevState => ({addingAccomodation: !prevState.addingAccomodation}));
+                this.setState(prevState => ({addingAccommodation: !prevState.addingAccommodation}));
                 break;
             default: break;
         }
@@ -80,54 +89,54 @@ class NewTrip extends Component {
 
     createTrip = (e) => {
         e.preventDefault();
-        const { name, startDate } = this.state.trip;
+        const { name, startDate } = this.state.inputs;
         if (!name && !startDate) return this.setState({ noName: true, noStart: false });
         if (name && !startDate) return this.setState({ noName: false, noStart: true });
-        if (!name && startDate) return this.setState({ noName: true, noStart: false })
-        this.props.addTrip(this.state.trip)
-        this.setState({ initialSubmit: true })
+        if (!name && startDate) return this.setState({ noName: true, noStart: false });
+        this.props.addTrip(this.state.inputs);
+        this.setState({ initialSubmit: true });
     }
 
     render() {
-        const { transportations, accomodations } = this.state;
-        const { name, startDate, endDate, destinations } = this.state.trip;
+        const { inputs, 
+            transportations,
+            accommodations,
+            noName,
+            noStart,
+            initialSubmit,
+            addingDestination,
+            addingTransportation,
+            addingAccommodation } = this.state;
+            console.log(this.props)
         return (
             <div className='newTrip'>
 
-                {/* ADD TRIP FORM */}
+                {/* INITIAL ADD TRIP FORM */}
 
-                {!this.state.initialSubmit ?
+                {!initialSubmit ?
                     <NewTripForm
                         createTrip={this.createTrip}
                         handleChange={this.handleChange}
-                        trip={this.state.trip}
-                        {...this.state}
+                        inputs={inputs}
+                        noName={noName}
+                        noStart={noStart}
                     /> :
 
                     // ADDED TRIP DATA //
 
                     <div className='newTripData'>
-                        <h2 className='newTripTitle'>{name}</h2>
-                        {startDate ?
-                            <span className='tripDates'>
-                                <label className='tripDate startDate'>
-                                    Start Date:
-                                    <p>{startDate}</p>
-                                </label>
-                                {endDate ?
-                                    <label className='tripDate  endDate'>
-                                        End Date:
-                                            <p>{endDate}</p>
-                                    </label> : null}
-                            </span> : null}
+                        
+                        {/* GEN NEW TRIP DATA */}
+
+                        <NewTripData {...this.props.currentTrip} />
 
                         {/* DESTINATIONS DATA */}
 
-                        <DestinationsData destinations={destinations} />
+                        <DestinationsData {...this.props.currentTrip} />
                         
                         {/* ADD DESTINATION FORM/TOGGLE BUTTON */}
                         
-                        {this.state.addingDestination ?
+                        {addingDestination ?
                         <DestinationForm addDestination={this.addDestination} closeForm={this.openForm} /> :
                         <button className='addFormButton' name="dest" onClick={this.openForm}>+ Destination</button>}
 
@@ -137,19 +146,19 @@ class NewTrip extends Component {
                         
                         {/* ADD TRANSPORTATION FORM/TOGGLE */}
                         
-                        {this.state.addingTransportation ?
+                        {addingTransportation ?
                         <TransportationForm addTransportation={this.addTransportation} closeForm={this.openForm} /> :
                         <button className='addFormButton' name="trans" onClick={this.openForm}>+ Transportation</button>}
 
-                        {/* ACCOMODATIONS DATA */}
+                        {/* ACCOMMODATIONS DATA */}
 
-                        <AccomodationsData accomodations={accomodations} />
+                        <AccommodationsData accommodations={accommodations} />
                         
-                        {/* ADD ACCOMODATION FORM/TOGGLE */}
+                        {/* ADD ACCOMMODATION FORM/TOGGLE */}
                         
-                        {this.state.addingAccomodation ?
-                        <AccomodationForm addAccomodation={this.addAccomodation} closeForm={this.openForm} /> :
-                        <button className='addFormButton' name="accom" onClick={this.openForm}>+ Accomodation</button>}
+                        {addingAccommodation ?
+                        <AccommodationForm addAccommodation={this.addAccommodation} closeForm={this.openForm} /> :
+                        <button className='addFormButton' name="accom" onClick={this.openForm}>+ Accommodation</button>}
 
                         
 
@@ -159,4 +168,4 @@ class NewTrip extends Component {
     }
 }
 
-export default connect(state => state.trips, { addTrip, getTrips })(NewTrip);
+export default connect(state => state.trips, { addTrip, getTrips, editTrip, addDestination })(NewTrip);

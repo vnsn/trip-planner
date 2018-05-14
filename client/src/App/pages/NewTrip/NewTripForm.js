@@ -1,7 +1,7 @@
 import React from 'react';
 
 function NewTripForm(props) {
-    const { name, startDate, endDate } = props.trip;
+    const { name, startDate, endDate } = props.inputs;
     return (
         <form className='newTripForm' >
             <h2>+ New Trip</h2>

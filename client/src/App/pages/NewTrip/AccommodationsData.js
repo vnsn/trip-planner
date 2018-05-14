@@ -1,21 +1,21 @@
 import React from 'react';
 
-function AccomodationsData(props) {
-    let {accomodations} = props
+function AccommodationsData(props) {
+    let {accommodations} = props
     return (
-        <div className='accomodationData'>
-            {accomodations.map((accom, i) =>
-                <div className='accomodation' key={i}>
+        <div className='accommodationData'>
+            {accommodations.map((accom, i) =>
+                <div className='accommodation' key={i}>
                     <h4>{accom.name}</h4>
                     {accom.arriveDate ?
                         <span className='accomDates'>
                             <label className='accomStart startDate'>
-                                Accomodation Arrive:
+                                Accommodation Arrive:
                                             <p>{accom.arriveDate}</p>
                             </label>
                             {accom.departDate ?
                                 <label className='accomEnd endDate'>
-                                    Accomodation Depart:
+                                    Accommodation Depart:
                                                 <p>{accom.departDate}</p>
                                 </label> : null}
                         </span> : null}
@@ -25,4 +25,4 @@ function AccomodationsData(props) {
     )
 }
 
-export default AccomodationsData;
+export default AccommodationsData;
