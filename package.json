@@ -14,8 +14,12 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
+  "engines": {
+    "node": "8.9.4"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vnsn/trip-planner.git"
