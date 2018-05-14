@@ -8,7 +8,7 @@ const ADD_TRIP = 'ADD_TRIP';
 const EDIT_TRIP = 'EDIT_TRIP';
 const DELETE_TRIP = 'DELETE_TRIP';
 
-const tripsURL = "/api/trips";
+const tripsURL = "/api/trips/";
 
 const initialState = {
     data: [],
