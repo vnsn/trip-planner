@@ -4,7 +4,7 @@ function About() {
     return (
         <div>
             <h2>Creators</h2> 
-            <p>Matt Wright, Ateeq Bahaduri, <a href="https://github.com/vnsn/">Jennifer Evenson</a></p>
+            <p><a href="https://github.com/wright0776">Matt Wright</a>, <a href="https://github.com/vnsn/">Jennifer Evenson</a>, <a href="https://github.com/Ateeqbahaduri">Ateeq Bahaduri</a></p>
 
             <h2>Objective</h2>
             <p>Keep travel plans and reservation information for (primarily) multi-city trips all in one place for easy reference on the go. </p>
