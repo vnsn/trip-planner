@@ -8,7 +8,7 @@ const ADD_RESERVATION = 'ADD_RESERVATION';
 const EDIT_RESERVATION = 'EDIT_RESERVATION';
 const DELETE_RESERVATION = 'DELETE_RESERVATION';
 
-const reservationsURL = "/api/reservations";
+const reservationsURL = "/api/reservations/";
 
 const initialState = {
     data: [],

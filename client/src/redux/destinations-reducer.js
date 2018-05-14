@@ -8,7 +8,7 @@ const ADD_DESTINATION = 'ADD_DESTINATION';
 const EDIT_DESTINATION = 'EDIT_DESTINATION';
 const DELETE_DESTINATION = 'DELETE_DESTINATION';
 
-const destinationsURL = "/api/destinations";
+const destinationsURL = "/api/destinations/";
 
 const initialState = {
     data: [],

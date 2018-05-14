@@ -8,7 +8,7 @@ const ADD_TRANSPORTATION = 'ADD_TRANSPORTATION';
 const EDIT_TRANSPORTATION = 'EDIT_TRANSPORTATION';
 const DELETE_TRANSPORTATION = 'DELETE_TRANSPORTATION';
 
-const transportationURL = "/api/transportation";
+const transportationURL = "/api/transportation/";
 
 const initialState = {
     data: [],
