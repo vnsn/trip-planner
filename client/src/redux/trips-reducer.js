@@ -12,6 +12,7 @@ const tripsURL = "/api/trips";
 
 const initialState = {
     data: [],
+    currentTrip: {},
     loading: true,
     errMsg: ""
 }
@@ -144,7 +145,8 @@ const tripsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                data: [...state.data, action.newTrip]
+                data: [...state.data, action.newTrip],
+                currentTrip: action.newTrip
             }
         case EDIT_TRIP:
             return {
