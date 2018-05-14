@@ -22,7 +22,7 @@ function App() {
             <Switch>
                 <Route exact path='/' component={Login} />
                 <Route path='/home' component={Home} />
-                <Route path='/trip-display' component={TripDisplay} />
+                <Route path='/trip/:id' component={TripDisplay} />
                 <Route path='/new-trip' component={NewTrip} />
                 <Route path='/logged-out' component={LoggedOut} />
                 <Route path='/about' component={About} />
