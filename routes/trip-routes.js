@@ -33,11 +33,19 @@ tripRouter.route("/:id")
         })
     })
     .put((req, res) => {
-        TripModel.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, updatedTrip) => {
+        TripModel.findOneAndUpdate({ _id: req.params.id }, req.body, { returnNewDocument: true }, (err, updatedTrip) => {
             if (err) return res.send(err);
             if (!updatedTrip) return res.status(404).send({ message: "Not found" });
             res.status(200).send(updatedTrip);
         });
+    })
+tripRouter.route("/:id/add-destination")
+    .post((req, res) => {
+        TripModel.findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true }, (err, updatedTrip) => {
+            if (err) return res.send(err);
+            if (!updatedTrip) return res.status(404).send({ message: `${req.params.id} Not found`});
+            res.status(200).send(updatedTrip);
+        })
     })
 
 

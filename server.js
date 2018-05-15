@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 //routes
 app.use("/api/trips", tripRouter);
 app.use("/api/destinations", destinationRouter);
-app.use("/api/transportation", transportationRouter);
+app.use("/api/transportations", transportationRouter);
 app.use("/api/reservations", reservationRouter);
 
 // database

@@ -14,14 +14,9 @@ const userSchema = new Schema ({
         type: String,
     },
     isAdmin: {
-        type: boolean,
+        type: Boolean,
         default: false
-    },
-    trips: [{
-        type: Schema.Types.ObjectId,
-        ref: "Trip"
-
-    }]
+    }
 
 },{timestamps: true});
 
