@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { EDIT_DESTINATION } from './destinations-reducer';
+
 const LOADING = 'LOADING';
 const ERR_MSG = 'ERR_MSG';
 const GET_RESERVATIONS = 'GET_RESERVATIONS';
@@ -56,7 +58,7 @@ export const getOneReservation = (id) => {
     }
 }
 
-export const addReservation = (newReservation) => {
+export const addReservation = (newReservation, destID) => {
     return dispatch => {
         axios.post(reservationsURL, newReservation)
             .then(response => {
@@ -64,6 +66,19 @@ export const addReservation = (newReservation) => {
                     type: 'ADD_RESERVATION',
                     newReservation: response.data
                 })
+                const resID = response.data._id;
+                return resID;
+            })
+            .then(resID => {
+                let editedDestination = { reservations: resID };
+                axios.post(`/api/destinations/${destID}/add-reservation`, editedDestination)
+                    .then(response => {
+                        dispatch({
+                            type: EDIT_DESTINATION,
+                            editedDestination: response.data,
+                            destID
+                        })
+                    })
             })
             .catch(err => {
                 dispatch({

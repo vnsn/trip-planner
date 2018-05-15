@@ -49,8 +49,7 @@ class NewTrip extends Component {
 
     addDestination = (e, dest) => {
         e.preventDefault();
-        this.props.addDestination(dest);
-        this.props.editTrip(dest, this.props.currentTrip._id);
+        this.props.addDestination(dest, this.props.currentTrip._id);
     }
     addTransportation = (e, trans) => {
         e.preventDefault();
@@ -107,7 +106,7 @@ class NewTrip extends Component {
             addingDestination,
             addingTransportation,
             addingAccommodation } = this.state;
-            console.log(this.props)
+            // console.log(this.props)
         return (
             <div className='newTrip'>
 

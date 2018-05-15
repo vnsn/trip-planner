@@ -1,7 +1,7 @@
 import React from 'react';
 
 function DestinationsData(props) {
-    console.log(props)
+    // console.log(props)
     let { destinations } = props;
     return (
         <div className='destinationsData'>

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { EDIT_DESTINATION } from './destinations-reducer';
+
 const LOADING = 'LOADING';
 const ERR_MSG = 'ERR_MSG';
 const GET_TRANSPORTATION = 'GET_TRANSPORTATION';
@@ -56,14 +58,27 @@ export const getOneTransportation = (id) => {
     }
 }
 
-export const addTransportation = (newTransportation) => {
+export const addTransportation = (newTransportation, destID) => {
     return dispatch => {
         axios.post(transportationURL, newTransportation)
             .then(response => {
                 dispatch({
-                    type: 'ADD_TRANSPORTATION',
+                    type: ADD_TRANSPORTATION,
                     newTransportation: response.data
                 })
+                const transID = response.data._id;
+                return transID;
+            })
+            .then(transID => {
+                let editedDestination = { transportations: transID };
+                axios.post(`/api/destinations/${destID}/add-transportation`, editedDestination)
+                    .then(response => {
+                        dispatch({
+                            type: EDIT_DESTINATION,
+                            editedDestination: response.data,
+                            destID
+                        })
+                    })
             })
             .catch(err => {
                 dispatch({
@@ -79,7 +94,7 @@ export const deleteTransportation = (id) => {
         axios.delete(transportationURL + id)
             .then(response => {
                 dispatch({
-                    type: 'DELETE_TRANSPORTATION',
+                    type: DELETE_TRANSPORTATION,
                     id
                 })
             })
@@ -98,7 +113,7 @@ export const editTransportation = (editedTransportation, id) => {
         axios.put(url, editedTransportation)
             .then(response => {
                 dispatch({
-                    type: 'EDIT_TRANSPORTATION',
+                    type: EDIT_TRANSPORTATION,
                     editedTransportation: response.data,
                     id
                 })
