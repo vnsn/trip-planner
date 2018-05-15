@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {editTrip} from './trips-reducer';
 
 import { EDIT_TRIP } from './trips-reducer';
 
@@ -80,6 +81,9 @@ export const addDestination = (newDestination, tripID) => {
                             tripID
                         })
                     })
+            })
+            .then(response => {
+                editTrip(tripId, {})
             })
             .catch(err => {
                 dispatch({

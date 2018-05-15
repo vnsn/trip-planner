@@ -25,19 +25,38 @@ input {
 .app {
     min-width: 400px;
 }
+.closeButton:hover {
+    background: plum;
+    transition: .2s;
+    box-shadow: inset 0 0 2px 2px white;
+}
 .closeButton {
     position: absolute;
-    right: 5px;
-    top: -10px;
-    width: 2em;
+    right: 8px;
+    top: 8px;
+    width: 1em;
+    height: 1em;
     font-size: 2em;
     border: none;
     outline: none;
     transition: .2s;
+    border-radius: .3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 3px;
+    box-shadow: inset 0 0 10px 10px white;
 }
-.closeButton:hover {
+.saveButton {
+    font-size: 1em;
+    padding: .7em;
+    margin-top: 1em;
+    background: transparent;
+    border-radius: .3em;
+}
+.saveButton:hover {
     background: plum;
-    transition: .2s;
 }
 
 /* TOPNAV COMPONENT */
@@ -85,6 +104,7 @@ input {
     height: 100vh;
     width: 100vw;
     background: transparent;
+    z-index: 1;
 }
 .topNavMenu {
     display: flex;
@@ -243,16 +263,11 @@ input {
     margin-top: 1em;
     position: relative;
 }
-.genForm > * {
+.genForm > label,
+.genForm > input {
     font-size: 1em;
     padding: .5em;
     border-radius: .3em;
-}
-.genForm > button {
-    margin-top: 1em;
-}
-.genForm > button:hover {
-    background: plum;
 }
 
 /* NEW TRIP DATA */
@@ -305,4 +320,27 @@ input {
 .destDate > p,
 .climate > p {
     padding-left: 10px;
+}
+
+/* RESERVATION MODAL */
+
+.resModal {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0;
+    margin: 0;
+    z-index: 2;
+    border-radius: 0;
+}
+.resModalInner {
+    width: 90%;
+    max-height: 100%;
+    overflow: auto;
 }

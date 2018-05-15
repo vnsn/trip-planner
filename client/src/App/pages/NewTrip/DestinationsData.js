@@ -4,7 +4,7 @@ function DestinationsData(props) {
     let { destinations } = props;
     return (
         <div className='destinationsData'>
-            {destinations && 
+            {destinations &&
                 destinations.map((dest, i) =>
                     <div className='destination' key={dest._id}>
                         <h4>{dest.name}</h4>

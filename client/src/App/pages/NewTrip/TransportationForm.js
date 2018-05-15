@@ -50,7 +50,7 @@ class TransportationForm extends Component {
                         <label htmlFor="resQ">Reservation?</label>
                         <button onClick={this.toggleResModal} name="resQ" >Add Reservation</button>
                     </div>}
-                <button>Add</button>
+                <button className='saveButton'>Add</button>
             </form>
         )
     }
