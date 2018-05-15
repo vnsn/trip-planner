@@ -24,12 +24,13 @@ class NewTrip extends Component {
                 destinations: []
             },
             trip: {},
+            destinations: [],
             transportations: [],
             accommodations: [],
             reservations: [],
             noName: false,
             noStart: false,
-            initialSubmit: false,
+            initialSubmit: true,
             addingDestination: true,
             addingTransportation: false,
             addingAccommodation: false
@@ -108,7 +109,8 @@ class NewTrip extends Component {
     }
 
     render() {
-        const { inputs, 
+        const { inputs,
+            destinations,
             transportations,
             accommodations,
             noName,
