@@ -14,6 +14,7 @@ const destinationsURL = "/api/destinations/";
 
 const initialState = {
     data: [],
+    currentDestination: {},
     loading: true,
     errMsg: ""
 }
@@ -159,7 +160,8 @@ const destinationsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                data: [...state.data, action.newDestination]
+                data: [...state.data, action.newDestination],
+                currentDestination: action.newDestination
             }
         case EDIT_DESTINATION:
             return {

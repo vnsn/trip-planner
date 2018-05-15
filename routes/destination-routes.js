@@ -40,5 +40,23 @@ destinationRouter.route("/:id")
         });
     })
 
+destinationRouter.route("/:id/add-reservation")
+    .post((req, res) => {
+        DestinationModel.findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true }, (err, updatedDestination) => {
+            if (err) return res.send(err);
+            if (!updatedDestination) return res.status(404).send({ message: `Destination ID ${req.params.id} Not found` });
+            res.status(200).send(updatedDestination);
+        })
+    })
+
+
+destinationRouter.route("/:id/add-transportation")
+    .post((req, res) => {
+        DestinationModel.findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true }, (err, updatedDestination) => {
+            if (err) return res.send(err);
+            if (!updatedDestination) return res.status(404).send({ message: `Destination ID ${req.params.id} Not found`});
+            res.status(200).send(updatedDestination);
+        })
+    })
 
 module.exports = destinationRouter;
