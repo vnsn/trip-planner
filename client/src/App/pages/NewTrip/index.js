@@ -22,12 +22,13 @@ class NewTrip extends Component {
                 destinations: []
             },
             trip: {},
+            destinations: [],
             transportations: [],
             accommodations: [],
             reservations: [],
             noName: false,
             noStart: false,
-            initialSubmit: false,
+            initialSubmit: true,
             addingDestination: true,
             addingTransportation: false,
             addingAccommodation: false
@@ -49,8 +50,15 @@ class NewTrip extends Component {
 
     addDestination = (e, dest) => {
         e.preventDefault();
-        this.props.addDestination(dest);
+        this.props.addDestination(dest, this.props.currentTrip._id);
         this.props.editTrip(dest, this.props.currentTrip._id);
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                destinations: [...prevState.destinations, dest],
+                addingDestination: false
+            }
+        })
     }
     addTransportation = (e, trans) => {
         e.preventDefault();
@@ -98,7 +106,8 @@ class NewTrip extends Component {
     }
 
     render() {
-        const { inputs, 
+        const { inputs,
+            destinations,
             transportations,
             accommodations,
             noName,
@@ -132,7 +141,7 @@ class NewTrip extends Component {
 
                         {/* DESTINATIONS DATA */}
 
-                        <DestinationsData {...this.props.currentTrip} />
+                        <DestinationsData destinations={destinations} />
                         
                         {/* ADD DESTINATION FORM/TOGGLE BUTTON */}
                         

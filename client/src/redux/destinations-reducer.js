@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {editTrip} from './trips-reducer';
 
 const LOADING = 'LOADING';
 const ERR_MSG = 'ERR_MSG';
@@ -8,7 +9,7 @@ const ADD_DESTINATION = 'ADD_DESTINATION';
 const EDIT_DESTINATION = 'EDIT_DESTINATION';
 const DELETE_DESTINATION = 'DELETE_DESTINATION';
 
-const destinationsURL = "/api/destinations";
+const destinationsURL = "/api/destinations/";
 
 const initialState = {
     data: [],
@@ -56,7 +57,7 @@ export const getOneDestination = (id) => {
     }
 }
 
-export const addDestination = (newDestination) => {
+export const addDestination = (newDestination, tripId) => {
     return dispatch => {
         axios.post(destinationsURL, newDestination)
             .then(response => {
@@ -64,6 +65,9 @@ export const addDestination = (newDestination) => {
                     type: 'ADD_DESTINATION',
                     newDestination: response.data
                 })
+            })
+            .then(response => {
+                editTrip(tripId, {})
             })
             .catch(err => {
                 dispatch({

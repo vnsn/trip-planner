@@ -5,7 +5,7 @@ function DestinationsData(props) {
     let { destinations } = props;
     return (
         <div className='destinationsData'>
-            {destinations &&
+            {destinations ?
                 destinations.map((dest, i) =>
                     <div className='destination' key={i}>
                         <h4>{dest.name}</h4>
@@ -17,7 +17,7 @@ function DestinationsData(props) {
                             {dest.climate && <p>Climate: {dest.climate}</p>}
                         </div>
                     </div>
-                )}
+                ) : null}
         </div>
     )
 }

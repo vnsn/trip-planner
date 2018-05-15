@@ -47,19 +47,20 @@ class ReservationModal extends Component {
         let { name, dateIn, dateOut, confirmationNumber, phone } = this.state.inputs;
         return (
             <div id="resModal" className='resModal'>
-                <div className=''>
-                    <button onClick={this.closeModal}>&times;</button>
+                <div className='genForm resModalInner'>
+                    <h4>+ Reservation</h4>
+                    <button onClick={this.closeModal} className='closeButton'>&times;</button>
                     <label htmlFor="name">Name:</label>
-                    <input name="name" value={name} type="text" placeholder="Name" />
+                    <input onChange={this.handleChange} name="name" value={name} type="text" placeholder="Name" />
                     <label htmlFor="dateIn">Date In:</label>
-                    <input name="dateIn" value={dateIn} type="date" />
+                    <input onChange={this.handleChange} name="dateIn" value={dateIn} type="date" />
                     <label htmlFor="dateOut">Date Out:</label>
-                    <input name="dateOut" value={dateOut} type="date" />
+                    <input onChange={this.handleChange} name="dateOut" value={dateOut} type="date" />
                     <label htmlFor="confirmationNumber">Confirmation Number:</label>
-                    <input name="confirmationNumber" value={confirmationNumber} type="text" placeholder="Confirmation Number" />
+                    <input onChange={this.handleChange} name="confirmationNumber" value={confirmationNumber} type="text" placeholder="Confirmation Number" />
                     <label htmlFor="phone">Phone:</label>
-                    <input name="phone" value={phone} type="text" placeholder="Phone" />
-                    <button onClick={this.submitReservation}>Done</button>
+                    <input onChange={this.handleChange} name="phone" value={phone} type="text" placeholder="Phone" />
+                    <button className='saveButton' onClick={this.submitReservation}>Done</button>
                 </div>
             </div>
         )

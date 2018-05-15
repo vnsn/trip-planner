@@ -42,7 +42,7 @@ class DestinationForm extends Component {
                 <input onChange={this.handleChange} name="endDate" value={endDate} type="date" />
                 <label htmlFor="climate">Climate</label>
                 <input onChange={this.handleChange} name="climate" value={climate} placeholder="warm to hot" type="text" />
-                <button>Add</button>
+                <button className='saveButton'>Add</button>
             </form>
         )
     }

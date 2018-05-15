@@ -12,8 +12,8 @@ const LOGOUT = 'LOGOUT';
 const SIGNUP_ERROR = 'SIGNUP_ERROR';
 const STOP_LOADING = 'STOP_LOADING';
 
-const signupURL = "/auth/signup";
-const loginURL = "/auth/login";
+const signupURL = "/auth/signup/";
+const loginURL = "/auth/login/";
 
 const initialState = {
     loading: true,
