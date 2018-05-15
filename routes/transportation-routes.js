@@ -21,21 +21,21 @@ transportationRouter.route('/:id')
     .get((req, res) => {
         TransportationModel.findOne({ _id: req.params.id }, (err, foundTransportation) => {
             if (err) return res.send(err);
-            if (!foundTransportation) return res.status(404).send({ message: "Not found" });
+            if (!foundTransportation) return res.status(404).send({ message: `Transportation ID ${req.params.id} Not found` });
             res.status(200).send(foundTransportation);
         })
     })
     .delete((req, res) => {
         TransportationModel.findOneAndRemove({ _id: req.params.id }, (err, deleteTransportation) => {
             if (err) return res.send(err);
-            if (!deleteTransportation) return res.status(404).send({ message: 'Not found' });
+            if (!deleteTransportation) return res.status(404).send({ message: `Transportation ID ${req.params.id} Not found` });
             res.status(200).send(`${deleteTransportation.name} was deleted.`);
         })
     })
     .put((req, res) => {
         TransportationModel.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, updateTransportation) => {
             if (err) return res.send(err);
-            if (!updateTransportation) return res.status(404).send({ message: 'Not found' });
+            if (!updateTransportation) return res.status(404).send({ message: `Transportation ID ${req.params.id} Not found` });
         });
     })
 

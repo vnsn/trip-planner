@@ -1,14 +1,16 @@
 import axios from 'axios';
 
+import { EDIT_DESTINATION } from './destinations-reducer';
+
 const LOADING = 'LOADING';
 const ERR_MSG = 'ERR_MSG';
-const GET_TRANSPORTATION = 'GET_TRANSPORTATION';
+const GET_TRANSPORTATIONS = 'GET_TRANSPORTATIONS';
 const GET_ONE_TRANSPORTATION = 'GET_ONE_TRANSPORTATION';
 const ADD_TRANSPORTATION = 'ADD_TRANSPORTATION';
 const EDIT_TRANSPORTATION = 'EDIT_TRANSPORTATION';
 const DELETE_TRANSPORTATION = 'DELETE_TRANSPORTATION';
 
-const transportationURL = "/api/transportation/";
+const transportationsURL = "/api/transportations/";
 
 const initialState = {
     data: [],
@@ -22,10 +24,10 @@ const initialState = {
 /////////////////////
 export const getTransportation = () => {
     return dispatch => {
-        axios.get(transportationURL)
+        axios.get(transportationsURL)
             .then(response => {
                 dispatch({
-                    type: GET_TRANSPORTATION,
+                    type: GET_TRANSPORTATIONS,
                     data: response.data
                 })
             })
@@ -40,7 +42,7 @@ export const getTransportation = () => {
 
 export const getOneTransportation = (id) => {
     return dispatch => {
-        axios.get(transportationURL + id)
+        axios.get(transportationsURL + id)
             .then(response => {
                 dispatch({
                     type: GET_ONE_TRANSPORTATION,
@@ -56,14 +58,27 @@ export const getOneTransportation = (id) => {
     }
 }
 
-export const addTransportation = (newTransportation) => {
+export const addTransportation = (newTransportation, destID) => {
     return dispatch => {
-        axios.post(transportationURL, newTransportation)
+        axios.post(transportationsURL, newTransportation)
             .then(response => {
                 dispatch({
-                    type: 'ADD_TRANSPORTATION',
+                    type: ADD_TRANSPORTATION,
                     newTransportation: response.data
                 })
+                const transID = response.data._id;
+                return transID;
+            })
+            .then(transID => {
+                let editedDestination = { transportations: transID };
+                axios.post(`/api/destinations/${destID}/add-transportation`, editedDestination)
+                    .then(response => {
+                        dispatch({
+                            type: EDIT_DESTINATION,
+                            editedDestination: response.data,
+                            destID
+                        })
+                    })
             })
             .catch(err => {
                 dispatch({
@@ -76,10 +91,10 @@ export const addTransportation = (newTransportation) => {
 
 export const deleteTransportation = (id) => {
     return dispatch => {
-        axios.delete(transportationURL + id)
+        axios.delete(transportationsURL + id)
             .then(response => {
                 dispatch({
-                    type: 'DELETE_TRANSPORTATION',
+                    type: DELETE_TRANSPORTATION,
                     id
                 })
             })
@@ -94,11 +109,11 @@ export const deleteTransportation = (id) => {
 
 export const editTransportation = (editedTransportation, id) => {
     return dispatch => {
-        let url = transportationURL + id;
+        let url = transportationsURL + id;
         axios.put(url, editedTransportation)
             .then(response => {
                 dispatch({
-                    type: 'EDIT_TRANSPORTATION',
+                    type: EDIT_TRANSPORTATION,
                     editedTransportation: response.data,
                     id
                 })
@@ -115,7 +130,7 @@ export const editTransportation = (editedTransportation, id) => {
 /////////////
 // Reducer //
 /////////////
-const transportationReducer = (state = initialState, action) => {
+const transportationsReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOADING:
             return {
@@ -128,7 +143,7 @@ const transportationReducer = (state = initialState, action) => {
                 loading: false,
                 errMsg: action.errMsg
             }
-        case GET_TRANSPORTATION:
+        case GET_TRANSPORTATIONS:
             return {
                 ...state,
                 loading: false,
@@ -168,4 +183,4 @@ const transportationReducer = (state = initialState, action) => {
     }
 }
 
-export default transportationReducer;
+export default transportationsReducer;

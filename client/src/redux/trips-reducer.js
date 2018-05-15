@@ -5,7 +5,7 @@ const ERR_MSG = 'ERR_MSG';
 const GET_TRIPS = 'GET_TRIPS';
 const GET_ONE_TRIP = 'GET_ONE_TRIP';
 const ADD_TRIP = 'ADD_TRIP';
-const EDIT_TRIP = 'EDIT_TRIP';
+export const EDIT_TRIP = 'EDIT_TRIP';
 const DELETE_TRIP = 'DELETE_TRIP';
 
 const tripsURL = "/api/trips/";
@@ -62,7 +62,7 @@ export const addTrip = (newTrip) => {
         axios.post(tripsURL, newTrip)
             .then(response => {
                 dispatch({
-                    type: 'ADD_TRIP',
+                    type: ADD_TRIP,
                     newTrip: response.data,
                 })
             })
@@ -80,7 +80,7 @@ export const deleteTrip = (id) => {
         axios.delete(tripsURL + id)
             .then(response => {
                 dispatch({
-                    type: 'DELETE_TRIP',
+                    type: DELETE_TRIP,
                     id
                 })
             })
@@ -99,7 +99,7 @@ export const editTrip = (editedTrip, id) => {
         axios.put(url, editedTrip)
             .then(response => {
                 dispatch({
-                    type: 'EDIT_TRIP',
+                    type: EDIT_TRIP,
                     editedTrip: response.data,
                     id
                 })

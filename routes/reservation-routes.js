@@ -21,21 +21,21 @@ reservationRouter.route("/:id")
     .get((req, res) => {
        ReservationModel.findOne({ _id: req.params.id }, (err, foundReservation) => {
             if (err) return res.send(err);
-            if (!foundReservation) return res.status(404).send({ message: "Not found" });
+            if (!foundReservation) return res.status(404).send({ message: `Reservation ID ${req.params.id} Not found` });
             res.status(200).send(foundReservation);
         })
     })
     .delete((req, res) => {
        ReservationModel.findOneAndRemove({ _id: req.params.id }, (err, deletedReservation) => {
             if (err) return res.send(err);
-            if (!deletedReservation) return res.status(404).send({ message: "Not found" });
+            if (!deletedReservation) return res.status(404).send({ message: `Reservation ID ${req.params.id} Not found` });
             res.status(200).send(`${deletedReservation.name} was deleted.`);
         })
     })
     .put((req, res) => {
        ReservationModel.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, updatedReservation) => {
             if (err) return res.send(err);
-            if (!updatedReservation) return res.status(404).send({ message: "Not found" });
+            if (!updatedReservation) return res.status(404).send({ message: `Reservation ID ${req.params.id} Not found` });
             res.status(200).send(updatedReservation);
         });
     })
