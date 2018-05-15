@@ -20,8 +20,12 @@ const tripSchema = new Schema({
     destinations: [{
         type: Schema.Types.ObjectId,
         ref: "Destination"
-    }]
+    }],
 
+    users: [{
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }]
 
 },{timestamps: true});
 

@@ -1,13 +1,12 @@
 import React from 'react';
 
 function DestinationsData(props) {
-    console.log(props)
     let { destinations } = props;
     return (
         <div className='destinationsData'>
-            {destinations ?
+            {destinations &&
                 destinations.map((dest, i) =>
-                    <div className='destination' key={i}>
+                    <div className='destination' key={dest._id}>
                         <h4>{dest.name}</h4>
                         <div className="trip-list-dates">
                             {dest.startDate && <p>Start Date: {new Date(dest.startDate).toLocaleDateString()}</p>}
@@ -17,7 +16,7 @@ function DestinationsData(props) {
                             {dest.climate && <p>Climate: {dest.climate}</p>}
                         </div>
                     </div>
-                ) : null}
+                )}
         </div>
     )
 }

@@ -1,18 +1,21 @@
 import axios from 'axios';
 import {editTrip} from './trips-reducer';
 
+import { EDIT_TRIP } from './trips-reducer';
+
 const LOADING = 'LOADING';
 const ERR_MSG = 'ERR_MSG';
 const GET_DESTINATIONS = 'GET_DESTINATIONS';
 const GET_ONE_DESTINATION = 'GET_ONE_DESTINATION';
 const ADD_DESTINATION = 'ADD_DESTINATION';
-const EDIT_DESTINATION = 'EDIT_DESTINATION';
+export const EDIT_DESTINATION = 'EDIT_DESTINATION';
 const DELETE_DESTINATION = 'DELETE_DESTINATION';
 
 const destinationsURL = "/api/destinations/";
 
 const initialState = {
     data: [],
+    currentDestination: {},
     loading: true,
     errMsg: ""
 }
@@ -57,14 +60,27 @@ export const getOneDestination = (id) => {
     }
 }
 
-export const addDestination = (newDestination, tripId) => {
+export const addDestination = (newDestination, tripID) => {
     return dispatch => {
         axios.post(destinationsURL, newDestination)
             .then(response => {
                 dispatch({
-                    type: 'ADD_DESTINATION',
+                    type: ADD_DESTINATION,
                     newDestination: response.data
                 })
+                const destID = response.data._id;
+                return destID;
+            })
+            .then(destID => {
+                let editedTrip = { destinations: destID };
+                axios.post(`/api/trips/${tripID}/add-destination`, editedTrip)
+                    .then(response => {
+                        dispatch({
+                            type: EDIT_TRIP,
+                            editedTrip: response.data,
+                            tripID
+                        })
+                    })
             })
             .then(response => {
                 editTrip(tripId, {})
@@ -83,7 +99,7 @@ export const deleteDestination = (id) => {
         axios.delete(destinationsURL + id)
             .then(response => {
                 dispatch({
-                    type: 'DELETE_DESTINATION',
+                    type: DELETE_DESTINATION,
                     id
                 })
             })
@@ -102,7 +118,7 @@ export const editDestination = (editedDestination, id) => {
         axios.put(url, editedDestination)
             .then(response => {
                 dispatch({
-                    type: 'EDIT_DESTINATION',
+                    type: EDIT_DESTINATION,
                     editedDestination: response.data,
                     id
                 })
@@ -148,7 +164,8 @@ const destinationsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                data: [...state.data, action.newDestination]
+                data: [...state.data, action.newDestination],
+                currentDestination: action.newDestination
             }
         case EDIT_DESTINATION:
             return {

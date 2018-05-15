@@ -10,6 +10,8 @@ import AccommodationsData from './AccommodationsData';
 import { connect } from 'react-redux';
 import { addTrip, getTrips, editTrip } from '../../../redux/trips-reducer';
 import { addDestination } from '../../../redux/destinations-reducer';
+import { addTransportation } from '../../../redux/transportations-reducer';
+import { addReservation } from '../../../redux/reservations-reducer';
 
 class NewTrip extends Component {
     constructor(props) {
@@ -37,12 +39,12 @@ class NewTrip extends Component {
     }
 
     handleChange = (e) => {
-        let { name, value } = e.target;
+        let { name, value, type, checked } = e.target;
         this.setState(prevState => {
             return {
                 inputs: {
                     ...prevState.inputs,
-                    [name]: value
+                    [name]: type === "checkbox" ? checked : value
                 }
             }
         })
@@ -50,15 +52,14 @@ class NewTrip extends Component {
 
     addDestination = (e, dest) => {
         e.preventDefault();
-        this.props.addDestination(dest, this.props.currentTrip._id);
-        this.props.editTrip(dest, this.props.currentTrip._id);
         this.setState(prevState => {
             return {
                 ...prevState,
-                destinations: [...prevState.destinations, dest],
+                destinations: [...prevState.inputs.destinations, dest],
                 addingDestination: false
             }
         })
+        this.props.addDestination(dest, this.props.trips.currentTrip._id);
     }
     addTransportation = (e, trans) => {
         e.preventDefault();
@@ -69,6 +70,7 @@ class NewTrip extends Component {
                 addingTransportation: false
             }
         })
+        this.props.addTransportation(trans, this.props.destinations.currentDestination._id);
     }
     addAccommodation = (e, accom) => {
         e.preventDefault();
@@ -79,6 +81,7 @@ class NewTrip extends Component {
                 addingAccommodation: false
             }
         })
+        this.props.addReservation(accom, this.props.destinations.currentDestination._id);
     }
     openForm = (e) => {
         switch (e.target.name) {
@@ -116,7 +119,7 @@ class NewTrip extends Component {
             addingDestination,
             addingTransportation,
             addingAccommodation } = this.state;
-            console.log(this.props)
+            // console.log(this.props)
         return (
             <div className='newTrip'>
 
@@ -137,11 +140,11 @@ class NewTrip extends Component {
                         
                         {/* GEN NEW TRIP DATA */}
 
-                        <NewTripData {...this.props.currentTrip} />
+                        <NewTripData {...this.props.trips.currentTrip} />
 
                         {/* DESTINATIONS DATA */}
 
-                        <DestinationsData destinations={destinations} />
+                        <DestinationsData destinations={this.props.destinations.data} />
                         
                         {/* ADD DESTINATION FORM/TOGGLE BUTTON */}
                         
@@ -177,4 +180,5 @@ class NewTrip extends Component {
     }
 }
 
-export default connect(state => state.trips, { addTrip, getTrips, editTrip, addDestination })(NewTrip);
+// export default connect(state => state.trips, { addTrip, getTrips, editTrip, addDestination, addTransportation, addReservation })(NewTrip);
+export default connect(state => state, { addTrip, getTrips, editTrip, addDestination, addTransportation, addReservation })(NewTrip);
