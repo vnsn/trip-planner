@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DestinationData from '../pages/NewTrip/DestinationsData'
+import DestinationsData from '../pages/NewTrip/DestinationsData'
 
 // SHARED
 import Loading from '../shared/Loading';
@@ -29,7 +29,7 @@ class TripDisplay extends Component {
 
     addDest = (inputs) => {
         if (!inputs.name) return this.setState({ noName: true });
-        this.props.addDestination(inputs);
+        this.props.addDestination(inputs, this.props.trips.newestTrip._id);
     }
 
     render() {
@@ -39,6 +39,7 @@ class TripDisplay extends Component {
             <div>
                 <Loading loading={loading} render={() => <div>...Loading</div>}>
                     <ErrorHandler err={errMsg} render={props => <div>Error {props.code}: {props.msg}</div>}>
+                        <DestinationsData />
                         <Form
                             resetInputs
                             inputs={{
@@ -71,6 +72,7 @@ class TripDisplay extends Component {
                                 }}
                                 submit={this.createTrip}
                                 render={props => <AccommodationForm noName={this.state.noName}{...props} />} />
+                                test
                         </Form>
                     </ErrorHandler>
                 </Loading>

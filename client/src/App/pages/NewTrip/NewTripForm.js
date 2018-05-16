@@ -12,7 +12,7 @@ function NewTripForm(props) {
             <input onChange={handleChange} name="startDate" value={inputs.startDate} type="date" />
             <label>End Date</label>
             <input onChange={handleChange} name="endDate" value={inputs.endDate} type="date" />
-            <button>Submit</button>
+            <button className='saveButton'>Submit</button>
         </form>
     )
 }
