@@ -1,7 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 
 // REACT ROUTER ELEMENTS
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 // STATIC
 import TopNav from "./TopNav";
@@ -12,25 +13,46 @@ import Login from "./pages/Login";
 import Home from './pages/Home';
 import TripDisplay from './pages/TripDisplay';
 import NewTrip from './pages/NewTrip';
-import LoggedOut from './pages/LoggedOut';
 import About from './pages/About';
+import ProtectedRoute from "./ProtectedRoute";
 
-function App() {
-    return (
-        <div className='app'>
-            <TopNav />
-            <Switch>
-                <Route exact path='/' component={Login} />
-                <Route path='/home' component={Home} />
-                <Route path='/trip/:id' component={TripDisplay} />
-                <Route path='/current-trip' component={TripDisplay} />
-                <Route path='/new-trip' component={NewTrip} />
-                <Route path='/logged-out' component={LoggedOut} />
-                <Route path='/about' component={About} />
-            </Switch>
-            <Footer />
-        </div>
-    )
+import { verify } from '../redux/auth-reducer';
+
+class App extends Component {
+
+    componentDidMount() {
+        this.props.verify();
+    }
+
+    render() {
+        const { isAuthenticated, loading } = this.props;
+        return (
+            <div className='app'>
+                <TopNav />
+                {loading ?
+                    <h1>...Loading user data... </h1>
+                    :
+                    <Switch>
+                        <Route exact path="/" render={props => isAuthenticated ?
+                            <Redirect to="/home" /> :
+                            <Login {...props} />
+                        } />
+                        <Route path="/signup" render={props => isAuthenticated ?
+                            <Redirect to="/home" /> :
+                            <Login isSignup {...props} />
+                        } />
+
+                        <Route path='/about' component={About} />
+
+                        <ProtectedRoute path='/home' component={Home} />
+                        <ProtectedRoute path='/trip/:id' component={TripDisplay} />
+                        <ProtectedRoute path='/new-trip' component={NewTrip} />
+                    </Switch>
+                }
+                <Footer />
+            </div>
+        )
+    }
 }
 
-export default App;
+export default withRouter(connect(state => state.users, { verify })(App));  
