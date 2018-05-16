@@ -11,7 +11,6 @@ class Login extends Component {
                 username: "",
                 password: ""
             },
-            signup: props.signup,
             noUsername: false,
             noPassword: false
         }
@@ -19,7 +18,7 @@ class Login extends Component {
     }
 
     requestAuth = (e) => {
-        if (this.state.signup) {
+        if (this.props.isSignup) {
             this.props.signup(this.state.inputs);
         } else {
             this.props.login(this.state.inputs);
@@ -27,9 +26,7 @@ class Login extends Component {
         this.setState(this.initialState);
 
     }
-    changeToSignUp = (e) => {
-        this.setState(prevState => ({ signup: !prevState.signup }))
-    }
+   
     handleChange = (e) => {
         const {name, value} = e.target
         this.props.eraseError();
@@ -55,14 +52,14 @@ class Login extends Component {
         let errMsg = "";
         let authErrCode;
 
-        if (this.state.signup) {
+        if (this.props.isSignup) {
             authErrCode = this.props.authErrCode.signup;
         } else {
             authErrCode = this.props.authErrCode.login;
         }
 
         if (authErrCode < 500 && authErrCode > 399) {
-            if (this.state.signup) {
+            if (this.props.isSignup) {
                 errMsg = "Username already taken";
             } else {
                 errMsg = "Invalid username or password!";
@@ -74,24 +71,24 @@ class Login extends Component {
         const { username, password } = this.state.inputs;
         return (
             <div className='login'>
-                {!this.state.signup ? <h2>Log-in to your account</h2> : null}
-                {this.state.signup ? <h2>Sign Up</h2> : null}
-                {this.state.noUsername ? <p className='red'>Please enter a username</p> : null}
-                {this.state.noPassword ? <p className='red'>Please enter a password</p> : null}
+                {!this.props.isSignup && <h2>Log-in to your account</h2>}
+                {this.props.isSignup && <h2>Sign Up</h2>}
+                {this.state.noUsername && <p className='red'>Please enter a username</p>}
+                {this.state.noPassword && <p className='red'>Please enter a password</p>}
                 <form className='loginForm' onSubmit={this.handleSubmit}>
                     <input onChange={this.handleChange} name='username' value={username} type="text" placeholder='E-mail Address' />
                     <input onChange={this.handleChange} name='password' value={password} type="text" placeholder='Password' />
-                    {!this.state.signup ? <button>Login</button> : null}
-                    {this.state.signup ? <button>Sign Up</button> : null}
+                    {!this.props.isSignup && <button>Login</button>}
+                    {this.props.isSignup && <button>Sign Up</button>}
                 </form>
 
                 {errMsg && <p>{errMsg}</p>}
 
                 <div className='signup'>
-                    {!this.state.signup && <p>New to us?</p>}
-                    {this.state.signup && <p>Already have an account?</p>}
-                    {!this.state.signup && <Link to="/signup" onClick={this.changeToSignUp}>Sign Up</Link>}
-                    {this.state.signup && <Link to="/" onClick={this.changeToSignUp}>Login</Link>}
+                    {!this.props.isSignup && <p>New to us?</p>}
+                    {this.props.isSignup && <p>Already have an account?</p>}
+                    {!this.props.isSignup && <Link to="/signup" >Sign Up</Link>}
+                    {this.props.isSignup && <Link to="/" >Login</Link>}
                 </div>
             </div>
         )

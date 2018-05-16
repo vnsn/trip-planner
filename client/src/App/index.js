@@ -35,11 +35,11 @@ class App extends Component {
                     <Switch>
                         <Route exact path="/" render={props => isAuthenticated ?
                             <Redirect to="/home" /> :
-                            <Login signup={false} {...props} />
+                            <Login {...props} />
                         } />
                         <Route path="/signup" render={props => isAuthenticated ?
                             <Redirect to="/home" /> :
-                            <Login signup {...props} />
+                            <Login isSignup {...props} />
                         } />
 
                         <Route path='/about' component={About} />
