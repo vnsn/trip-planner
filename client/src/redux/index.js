@@ -7,9 +7,10 @@ import reservations from "./reservations-reducer";
 import transportations from "./transportations-reducer";
 import users from "./auth-reducer";
 
-const store = createStore(combineReducers({trips, destinations, reservations, transportations, users}), 
-window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-applyMiddleware(thunk));
+const store = createStore(
+    combineReducers({trips, destinations, reservations, transportations, users}), 
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    applyMiddleware(thunk));
 
 
 store.subscribe(() => {

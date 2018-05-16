@@ -79,14 +79,14 @@ export const addTransportation = (newTransportation, destID) => {
             })
             .then(transID => {
                 let editedDestination = { transportations: transID };
-                transportationsAxios.post(`/api/destinations/${destID}/add-transportation`, editedDestination)
-                    .then(response => {
-                        dispatch({
-                            type: EDIT_DESTINATION,
-                            editedDestination: response.data,
-                            destID
-                        })
-                    })
+                return transportationsAxios.post(`/api/destinations/${destID}/add-transportation`, editedDestination)   
+            })
+            .then(response => {
+                dispatch({
+                    type: EDIT_DESTINATION,
+                    editedDestination: response.data,
+                    destID
+                })
             })
             .catch(err => {
                 dispatch({
