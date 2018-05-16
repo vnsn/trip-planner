@@ -2,7 +2,7 @@ import React from 'react'
 
 function About() {
     return (
-        <div>
+        <div className="about">
             <h2>Creators</h2> 
             <p><a href="https://github.com/wright0776">Matt Wright</a>, <a href="https://github.com/vnsn/">Jennifer Evenson</a>, <a href="https://github.com/Ateeqbahaduri">Ateeq Bahaduri</a></p>
 
