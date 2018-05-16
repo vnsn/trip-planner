@@ -11,21 +11,13 @@ const AUTHENTICATE = 'AUTHENTICATE';
 const LOGOUT = 'LOGOUT';
 const STOP_LOADING = 'STOP_LOADING';
 const AUTH_ERROR = 'AUTH_ERROR';
+const ERASE_ERROR = 'ERASE_ERROR';
 
 const signupURL = "/auth/signup/";
 const loginURL = "/auth/login/";
 const profileURL = "/api/profile";
 
-const initialState = {
-    loading: true,
-    username: "",
-    isAdmin: false,
-    isAuthenticated: false,
-    authErrCode: {
-        signup: "",
-        login: ""
-    },
-}
+
 
 
 /////////////////////
@@ -100,6 +92,24 @@ export function verify() {
     }
 }
 
+export function eraseError() {
+    return {
+        type: ERASE_ERROR
+    }
+}
+
+const initialState = {
+    loading: true,
+    username: "",
+    isAdmin: false,
+    isAuthenticated: false,
+    authErrCode: {
+        signup: "",
+        login: "",
+        verify: ""
+    },
+}
+
 /////////////
 // Reducer //
 /////////////
@@ -119,6 +129,11 @@ const authReducer = (state = initialState, action) => {
                 },
                 loading: false
             };
+        case ERASE_ERROR:
+            return {
+                ...state,
+                authErrCode: initialState.authErrCode
+            }
         case AUTHENTICATE:
             return {
                 ...state,
@@ -129,7 +144,7 @@ const authReducer = (state = initialState, action) => {
             };
         case LOGOUT:
             return {
-                initialState,
+                ...initialState,
                 loading: false
             };
         default:

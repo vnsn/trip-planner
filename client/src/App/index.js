@@ -13,7 +13,6 @@ import Login from "./pages/Login";
 import Home from './pages/Home';
 import TripDisplay from './pages/TripDisplay';
 import NewTrip from './pages/NewTrip';
-// import Logout from './pages/Logout';
 import About from './pages/About';
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -36,18 +35,18 @@ class App extends Component {
                     <Switch>
                         <Route exact path="/" render={props => isAuthenticated ?
                             <Redirect to="/home" /> :
-                            <Login {...props} />
+                            <Login signup={false} {...props} />
                         } />
-                        <Route path="/login" render={props => isAuthenticated ?
+                        <Route path="/signup" render={props => isAuthenticated ?
                             <Redirect to="/home" /> :
-                            <Login {...props} />
+                            <Login signup {...props} />
                         } />
+
+                        <Route path='/about' component={About} />
 
                         <ProtectedRoute path='/home' component={Home} />
                         <ProtectedRoute path='/trip/:id' component={TripDisplay} />
                         <ProtectedRoute path='/new-trip' component={NewTrip} />
-                        <Route path='/about' component={About} />
-                        {/* <Route path='/logout' component={Logout} /> */}
                     </Switch>
                 }
                 <Footer />

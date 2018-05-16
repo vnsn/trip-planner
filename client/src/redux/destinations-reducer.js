@@ -190,7 +190,7 @@ const destinationsReducer = (state = initialState, action) => {
             }
         case LOGOUT:  
         return {
-            initialState,
+            ...initialState,
             loading: false
         }
         default:

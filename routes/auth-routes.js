@@ -41,14 +41,13 @@ authRouter.post("/login", (req, res) => {
             user.checkPassword(req.body.password, (err, match) => {
                 if (err) throw (err);
                 if (!match) return res.status(401).send({ success: false, message: "Incorrect password" });
-// there was an error in the line above from Bob ("return" was missing)
 
                 // if username and password both match an entry in the database,
                 // create a JWT! Add the user object as the payload and pass in the secret.
                 const token = jwt.sign(user.toObject(), process.env.SECRET);
                 
                 // send the token back to the client app
-                res.send({user: user.withoutPassword(),token: token, success: true, message: "Here's your token!"});  
+                return res.send({user: user.withoutPassword(),token: token, success: true, message: "Here's your token!"});  
             });
         }
     });
