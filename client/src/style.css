@@ -22,9 +22,9 @@ input {
 .red {
     color: #f00;
 }
-.app {
-    min-width: 400px;
-}
+/* .app {
+    min-width: 250px;
+} */
 .closeButton:hover {
     background: plum;
     transition: .2s;
@@ -133,7 +133,8 @@ input {
 /* FOOTER COMPONENT */
 
 .footer {
-    padding: 20px;
+    text-align: center;
+    padding: 1rem;
     border-top: 1px solid #ddd;
 }
 
@@ -154,7 +155,7 @@ input {
     border: 1px solid #aaa;
     border-radius: .3em;
     padding: 1em;
-    width: 400px;
+    /* width: 400px; */
     background: #fff;
 }
 .loginForm > * {
@@ -188,8 +189,8 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 400px;
-    border: 1px solid #aaa;
+    /* width: 400px; */
+    /* border: 1px solid #aaa; */
     padding: 1em;
     margin-top: 1em;
     border-radius: .3em;
@@ -217,7 +218,7 @@ input {
     justify-content: center;
     min-height: 85vh;
     background: #eee;
-    min-height: 450px; 
+    /* min-height: 450px;  */
 }
 
 /* NEW TRIP FORM */
@@ -227,7 +228,7 @@ input {
     flex-direction: column;
     border: 1px solid #aaa;
     padding: 1em;
-    width: 400px;
+    /* width: 400px; */
     background: #fff;
 }
 .newTripForm > * {
@@ -251,7 +252,7 @@ input {
     background: plum;
 }
 
-/* DESTINATION FORM, TRANSPORTATION FORM, ACCOMODATION FORM */
+/* DESTINATION FORM, TRANSPORTATION FORM, ACCOMMODATION FORM */
 
 .genForm {
     display: flex;
@@ -277,7 +278,7 @@ input {
     flex-direction: column;
     border: 1px solid #aaa;
     padding: 1em;
-    width: 400px;
+    /* width: 400px; */
     background: #fff;
 }
 .newTripData > * {
@@ -343,4 +344,29 @@ input {
     width: 90%;
     max-height: 100%;
     overflow: auto;
+}
+
+/* ABOUT */
+
+.about {
+    margin: 1rem;
+    padding: 0.5rem;
+}
+
+.about h2 {
+    margin: 1em 0 0.5em 0;
+}
+
+.about ul {
+    margin-left: 10%;
+}
+
+/* TRIPS LIST */
+.trips-list {
+    margin: 1rem;
+    padding: 0.5rem;
+}
+
+.trips-list h3 {
+    margin: 1em 0 0.25em 0;
 }

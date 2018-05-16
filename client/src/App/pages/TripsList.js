@@ -10,7 +10,7 @@ function TripsList(props) {
     const dataList = data.map(item => {
         return (
             <div key={item._id} className="trip-list-card">
-                <h2 className="trip-list-name"><Link to={`/trip/${item._id}`}>{item.name}</Link></h2>
+                <h3 className="trip-list-name"><Link to={`/trip/${item._id}`}>{item.name}</Link></h3>
 
                 <div className="trip-list-dates">
 
@@ -28,8 +28,8 @@ function TripsList(props) {
     });
 
     return (
-        <div>
-            <h2>Saved Trips</h2>
+        <div className = "trips-list">
+            <h2>My Trips</h2>
             {dataList}
         </div>
     )
