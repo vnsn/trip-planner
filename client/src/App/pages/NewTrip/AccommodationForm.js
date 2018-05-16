@@ -27,18 +27,21 @@ class AccommodationForm extends Component {
             }
         })
     }
+    toggleResModal = (e) => {
+        this.setState(prevState => ({ showResModal: !prevState.showResModal }))
+    }
 
     render() {
         const { name, arriveDate, departDate } = this.state.inputs;
         return (
-            <form onSubmit={(e)=>this.props.addAccommodation(e, this.state.inputs)} className='genForm'>
+            <form onSubmit={(e) => this.props.addAccommodation(e, this.state.inputs)} className='genForm'>
                 <button name='accom' className='closeButton' onClick={this.props.closeForm}>&times;</button>
                 <h3>+ Accommodation</h3>
                 <label htmlFor="name">Name</label>
                 <input onChange={this.handleChange} name="name" value={name} placeholder="Train" type="text" />
-                <label htmlFor="departDate">Depart Date</label>
+                <label htmlFor="departDate">Arrive Date</label>
                 <input onChange={this.handleChange} name="arriveDate" value={arriveDate} type="date" />
-                <label htmlFor="arriveDate">Arrive Date</label>
+                <label htmlFor="arriveDate">Depart Date</label>
                 <input onChange={this.handleChange} name="departDate" value={departDate} type="date" />
                 {this.state.showResModal ?
                     <ReservationModal toggleResModal={this.toggleResModal} /> :
