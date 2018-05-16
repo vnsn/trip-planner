@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import DestinationsData from '../pages/NewTrip/DestinationsData'
+import DestinationsData from '../pages/NewTrip/DestinationsData';
+import NewTripData from '../pages/NewTrip/NewTripData';
 
 // SHARED
 import Loading from '../shared/Loading';
@@ -12,6 +13,7 @@ import AccommodationForm from './NewTrip/AccommodationForm';
 
 // REDUX
 import { connect } from 'react-redux';
+import { getOneTrip } from '../../redux/trips-reducer';
 import { addDestination } from '../../redux/destinations-reducer';
 import { addReservation } from '../../redux/reservations-reducer';
 
@@ -23,22 +25,30 @@ class TripDisplay extends Component {
             destNoName: false,
             transNoName: false,
             accomNoName: false,
-            resNoName: false
+            resNoName: false,
         }
+        console.log(this.state.foundTrip)
+    }
+
+    componentDidMount(){
+        this.props.getOneTrip(this.props.match.params.id);
     }
 
     addDest = (inputs) => {
-        if (!inputs.name) return this.setState({ noName: true });
+        if (!inputs.name) return this.setState({ destNoName: true });
         this.props.addDestination(inputs, this.props.trips.newestTrip._id);
     }
 
     render() {
-        const { loading, errMsg, data } = this.props.trips.newestTrip;
-        console.log(this.props)
+        const { loading, errMsg, data } = this.props.trips.data;
+        console.log(this)
         return (
             <div>
                 <Loading loading={loading} render={() => <div>...Loading</div>}>
                     <ErrorHandler err={errMsg} render={props => <div>Error {props.code}: {props.msg}</div>}>
+                        newtripdata:
+                        <NewTripData {...this.props.trips.data}/>
+                        destdata:
                         <DestinationsData />
                         <Form
                             resetInputs
@@ -81,6 +91,6 @@ class TripDisplay extends Component {
     }
 }
 
-export default connect(state => state, { addDestination })(TripDisplay);
+export default connect(state => state, { getOneTrip, addDestination })(TripDisplay);
 
 

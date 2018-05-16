@@ -20,8 +20,6 @@ class DestinationsData extends Component {
         this.initialState = {
             addingTransportation: false,
             addingAccommodation: false,
-            transportations: [],
-            accommodations: [],
             editing: false
         }
         this.state = this.initialState;
