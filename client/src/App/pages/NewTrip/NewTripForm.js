@@ -1,22 +1,20 @@
 import React from 'react';
 
 function NewTripForm(props) {
-    const { name, startDate, endDate } = props.inputs;
+    const { handleChange, handleSubmit, inputs, noName } = props;
     return (
-        <form className='newTripForm' >
+        <form onSubmit={handleSubmit} className='genForm' >
             <h2>+ New Trip</h2>
-            {props.noName ? <p className='red'>Please enter a trip name</p> : null}
-            {props.noStart ? <p className='red'>Please enter a start date</p> : null}
-            <label htmlFor="tripName">Trip Name</label>
-            <input onChange={props.handleChange} name="name" value={name} placeholder="Tour of Italy" type="text" />
-            <label htmlFor="tripStartDate">Start Date</label>
-            <input onChange={props.handleChange} name="startDate" value={startDate} type="date" />
-            <label htmlFor="tripEndDate">End Date</label>
-            <input onChange={props.handleChange} name="endDate" value={endDate} type="date" />
-            <button onClick={props.createTrip}>Submit</button>
+            {noName ? <p className='red'>Please enter a trip name</p> : null}
+            <label>Trip Name</label>
+            <input onChange={handleChange} name="name" value={inputs.name} placeholder="Tour of Italy" type="text" />
+            <label>Start Date</label>
+            <input onChange={handleChange} name="startDate" value={inputs.startDate} type="date" />
+            <label>End Date</label>
+            <input onChange={handleChange} name="endDate" value={inputs.endDate} type="date" />
+            <button>Submit</button>
         </form>
     )
 }
-
 
 export default NewTripForm
