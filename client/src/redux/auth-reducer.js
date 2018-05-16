@@ -1,30 +1,23 @@
 import axios from "axios";
 
-// const profileAxios = axios.create();
-// profileAxios.interceptors.request.use(config => {
-//     const token = localStorage.getItem("token");
-//     config.headers.Authorization = `Bearer ${token}`;
-//     return config;
-// })
+const profileAxios = axios.create();
+profileAxios.interceptors.request.use(config => {
+    const token = localStorage.getItem("token");
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
 
 const AUTHENTICATE = 'AUTHENTICATE';
 const LOGOUT = 'LOGOUT';
-const SIGNUP_ERROR = 'SIGNUP_ERROR';
 const STOP_LOADING = 'STOP_LOADING';
+const AUTH_ERROR = 'AUTH_ERROR';
+const ERASE_ERROR = 'ERASE_ERROR';
 
 const signupURL = "/auth/signup/";
 const loginURL = "/auth/login/";
+const profileURL = "/api/profile";
 
-const initialState = {
-    loading: true,
-    username: "",
-    isAdmin: false,
-    isAuthenticated: false,
-    authErrCode: {
-        signup: "",
-        login: ""
-    }
-}
+
 
 
 /////////////////////
@@ -34,6 +27,14 @@ function authenticate(user) {
     return {
         type: AUTHENTICATE,
         user
+    }
+}
+
+function authError(key, errCode) {
+    return {
+        type: AUTH_ERROR,
+        key,
+        errCode
     }
 }
 
@@ -47,6 +48,10 @@ export const signup = (userInfo) => {
                 localStorage.setItem("user", JSON.stringify(user));
                 dispatch(authenticate(user));
             })
+            .catch((err) => {
+                console.error(err);
+                dispatch(authError("signup", err.response.status));
+            })
     }
 }
 
@@ -59,6 +64,10 @@ export const login = (credentials) => {
                 localStorage.setItem("user", JSON.stringify(user));
                 dispatch(authenticate(user));
             })
+            .catch((err) => {
+                console.error(err);
+                dispatch(authError("login", err.response.status));
+            })
     }
 }
 
@@ -70,19 +79,48 @@ export const logout = () => {
     }
 }
 
+export function verify() {
+    return dispatch => {
+        profileAxios.get(profileURL)
+            .then(response => {
+                let { user } = response.data;
+                dispatch(authenticate(user));
+            })
+            .catch(err => {
+                dispatch(authError("verify", err.response.status));
+            });
+    }
+}
+
+export function eraseError() {
+    return {
+        type: ERASE_ERROR
+    }
+}
+
+const initialState = {
+    loading: true,
+    username: "",
+    isAdmin: false,
+    isAuthenticated: false,
+    authErrCode: {
+        signup: "",
+        login: "",
+        verify: ""
+    },
+}
 
 /////////////
 // Reducer //
 /////////////
 const authReducer = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case STOP_LOADING:
             return {
                 ...state,
                 loading: false
-            }
-
-        case SIGNUP_ERROR:
+            };
+        case AUTH_ERROR:
             return {
                 ...state,
                 authErrCode: {
@@ -91,17 +129,19 @@ const authReducer = (state = initialState, action) => {
                 },
                 loading: false
             };
+        case ERASE_ERROR:
+            return {
+                ...state,
+                authErrCode: initialState.authErrCode
+            }
         case AUTHENTICATE:
             return {
                 ...state,
                 ...action.user,
                 isAuthenticated: true,
-                authErrCode: {
-                    signup: "",
-                    signin: ""
-                }, 
-                loading: false
-            };  
+                loading: false,
+                authErrCode: initialState.authErrCode
+            };
         case LOGOUT:
             return {
                 ...initialState,

@@ -1,6 +1,13 @@
 import axios from 'axios';
-
 import { EDIT_DESTINATION } from './destinations-reducer';
+
+let reservationsAxios = axios.create();
+
+reservationsAxios.interceptors.request.use((config)=>{  
+    const token = localStorage.getItem("token");
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
 
 const LOADING = 'LOADING';
 const ERR_MSG = 'ERR_MSG';
@@ -9,6 +16,7 @@ const GET_ONE_RESERVATION = 'GET_ONE_RESERVATION';
 const ADD_RESERVATION = 'ADD_RESERVATION';
 const EDIT_RESERVATION = 'EDIT_RESERVATION';
 const DELETE_RESERVATION = 'DELETE_RESERVATION';
+const LOGOUT = 'LOGOUT';
 
 const reservationsURL = "/api/reservations/";
 
@@ -24,7 +32,7 @@ const initialState = {
 /////////////////////
 export const getReservations = () => {
     return dispatch => {
-        axios.get(reservationsURL)
+        reservationsAxios.get(reservationsURL)
             .then(response => {
                 dispatch({
                     type: GET_RESERVATIONS,
@@ -42,7 +50,7 @@ export const getReservations = () => {
 
 export const getOneReservation = (id) => {
     return dispatch => {
-        axios.get(reservationsURL + id)
+        reservationsAxios.get(reservationsURL + id)
             .then(response => {
                 dispatch({
                     type: GET_ONE_RESERVATION,
@@ -60,7 +68,7 @@ export const getOneReservation = (id) => {
 
 export const addReservation = (newReservation, destID) => {
     return dispatch => {
-        axios.post(reservationsURL, newReservation)
+        reservationsAxios.post(reservationsURL, newReservation)
             .then(response => {
                 dispatch({
                     type: 'ADD_RESERVATION',
@@ -71,7 +79,7 @@ export const addReservation = (newReservation, destID) => {
             })
             .then(resID => {
                 let editedDestination = { reservations: resID };
-                axios.post(`/api/destinations/${destID}/add-reservation`, editedDestination)
+                reservationsAxios.post(`/api/destinations/${destID}/add-reservation`, editedDestination)
                     .then(response => {
                         dispatch({
                             type: EDIT_DESTINATION,
@@ -91,7 +99,7 @@ export const addReservation = (newReservation, destID) => {
 
 export const deleteReservation = (id) => {
     return dispatch => {
-        axios.delete(reservationsURL + id)
+        reservationsAxios.delete(reservationsURL + id)
             .then(response => {
                 dispatch({
                     type: 'DELETE_RESERVATION',
@@ -110,7 +118,7 @@ export const deleteReservation = (id) => {
 export const editReservation = (editedReservation, id) => {
     return dispatch => {
         let url = reservationsURL + id;
-        axios.put(url, editedReservation)
+        reservationsAxios.put(url, editedReservation)
             .then(response => {
                 dispatch({
                     type: 'EDIT_RESERVATION',
@@ -177,7 +185,11 @@ const reservationsReducer = (state = initialState, action) => {
                 loading: false,
                 data: state.data.filter(reservation => reservation._id !== action.id)
             }
-
+        case LOGOUT:  
+        return {
+            ...initialState,
+            loading: false
+        }
         default:
             return state;
     }

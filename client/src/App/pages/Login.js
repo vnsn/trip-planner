@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { signup, login, eraseError } from '../../redux/auth-reducer';
+import {Link} from "react-router-dom";
 
 class Login extends Component {
     constructor(props) {
@@ -9,7 +11,7 @@ class Login extends Component {
                 username: "",
                 password: ""
             },
-            signup: false,
+            signup: props.signup,
             noUsername: false,
             noPassword: false
         }
@@ -17,31 +19,58 @@ class Login extends Component {
     }
 
     requestAuth = (e) => {
+        if (this.state.signup) {
+            this.props.signup(this.state.inputs);
+        } else {
+            this.props.login(this.state.inputs);
+        }
+        this.setState(this.initialState);
 
     }
     changeToSignUp = (e) => {
         this.setState(prevState => ({ signup: !prevState.signup }))
     }
     handleChange = (e) => {
-        e.persist()
+        const {name, value} = e.target
+        this.props.eraseError();
         this.setState(prevState => ({
             inputs: {
                 ...prevState.inputs,
-                [e.target.name]: e.target.value
+                [name]: value
             }
         }))
     }
     handleSubmit = (e) => {
-        const { username, password } = this.state.inputs;
         e.preventDefault();
+        const { username, password } = this.state.inputs;
 
         if (!username && !password) return this.setState({ noUsername: true, noPassword: false })
         if (username && !password) return this.setState({ noUsername: false, noPassword: true })
         if (!username && password) return this.setState({ noUsername: true, noPassword: false })
 
+        this.requestAuth();
     }
 
     render() {
+        let errMsg = "";
+        let authErrCode;
+
+        if (this.state.signup) {
+            authErrCode = this.props.authErrCode.signup;
+        } else {
+            authErrCode = this.props.authErrCode.login;
+        }
+
+        if (authErrCode < 500 && authErrCode > 399) {
+            if (this.state.signup) {
+                errMsg = "Username already taken";
+            } else {
+                errMsg = "Invalid username or password!";
+            }
+        } else if (authErrCode > 499) {
+            errMsg = "Server error!";
+        }
+
         const { username, password } = this.state.inputs;
         return (
             <div className='login'>
@@ -55,15 +84,18 @@ class Login extends Component {
                     {!this.state.signup ? <button>Login</button> : null}
                     {this.state.signup ? <button>Sign Up</button> : null}
                 </form>
+
+                {errMsg && <p>{errMsg}</p>}
+
                 <div className='signup'>
-                    {!this.state.signup ? <p>New to us?</p> : null}
-                    {this.state.signup ? <p>Already have an account?</p> : null}
-                    {!this.state.signup ? <button onClick={this.changeToSignUp}>Sign Up</button> : null}
-                    {this.state.signup ? <button onClick={this.changeToSignUp}>Login</button> : null}
+                    {!this.state.signup && <p>New to us?</p>}
+                    {this.state.signup && <p>Already have an account?</p>}
+                    {!this.state.signup && <Link to="/signup" onClick={this.changeToSignUp}>Sign Up</Link>}
+                    {this.state.signup && <Link to="/" onClick={this.changeToSignUp}>Login</Link>}
                 </div>
             </div>
         )
     }
 }
 
-export default connect(null, {})(Login);
+export default connect(state => state.users, { signup, login, eraseError })(Login);

@@ -13,7 +13,6 @@ const tripSchema = new Schema({
     },
 
     endDate: {
-        // required: true,
         type: Date
     },
 
@@ -24,7 +23,8 @@ const tripSchema = new Schema({
 
     users: [{
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User", 
+        required: true,
     }]
 
 },{timestamps: true});
