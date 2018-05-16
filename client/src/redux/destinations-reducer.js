@@ -3,7 +3,7 @@ import { EDIT_TRIP } from './trips-reducer';
 
 let destinationsAxios = axios.create();
 
-destinationsAxios.interceptors.request.use((config)=>{  
+destinationsAxios.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
     config.headers.Authorization = `Bearer ${token}`;
     return config;
@@ -81,14 +81,14 @@ export const addDestination = (newDestination, tripID) => {
             })
             .then(destID => {
                 let editedTrip = { destinations: destID };
-                destinationsAxios.post(`/api/trips/${tripID}/add-destination`, editedTrip)
-                    .then(response => {
-                        dispatch({
-                            type: EDIT_TRIP,
-                            editedTrip: response.data,
-                            tripID
-                        })
-                    })
+                return destinationsAxios.post(`/api/trips/${tripID}/add-destination`, editedTrip)
+            })
+            .then(response => {
+                dispatch({
+                    type: EDIT_TRIP,
+                    editedTrip: response.data,
+                    tripID
+                })
             })
             .catch(err => {
                 dispatch({
@@ -188,11 +188,11 @@ const destinationsReducer = (state = initialState, action) => {
                 loading: false,
                 data: state.data.filter(destination => destination._id !== action.id)
             }
-        case LOGOUT:  
-        return {
-            ...initialState,
-            loading: false
-        }
+        case LOGOUT:
+            return {
+                ...initialState,
+                loading: false
+            }
         default:
             return state;
     }

@@ -79,14 +79,14 @@ export const addReservation = (newReservation, destID) => {
             })
             .then(resID => {
                 let editedDestination = { reservations: resID };
-                reservationsAxios.post(`/api/destinations/${destID}/add-reservation`, editedDestination)
-                    .then(response => {
-                        dispatch({
-                            type: EDIT_DESTINATION,
-                            editedDestination: response.data,
-                            destID
-                        })
-                    })
+                return reservationsAxios.post(`/api/destinations/${destID}/add-reservation`, editedDestination)
+            })
+            .then(response => {
+                dispatch({
+                    type: EDIT_DESTINATION,
+                    editedDestination: response.data,
+                    destID
+                })
             })
             .catch(err => {
                 dispatch({
