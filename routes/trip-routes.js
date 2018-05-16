@@ -50,7 +50,10 @@ tripRouter.route("/:id")
     })
 tripRouter.route("/:id/add-destination")
     .post((req, res) => {
-        TripModel.findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true }, (err, updatedTrip) => {
+        TripModel
+        .findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true })
+        .populate("destinations")
+        .exec((err, updatedTrip) => {
             if (err) return res.status(500).send(err);
             if (!updatedTrip) return res.status(404).send({ message: `${req.params.id} Not found`});
             res.status(200).send(updatedTrip);
