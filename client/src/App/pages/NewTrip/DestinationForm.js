@@ -1,23 +1,53 @@
 import React, { Component } from 'react'
 
-function DestinationForm(props) {
-    const { handleChange, handleSubmit, inputs, noName } = props;
-    return (
-        <form onSubmit={handleSubmit} className='genForm'>
-            <button name='dest' className='closeButton' onClick={props.closeForm}>&times;</button>
-            <h3>+ Destination</h3>
-            {noName ? <p className='red'>Please enter a trip name</p> : null}
-            <label>Name</label>
-            <input onChange={handleChange} name="name" value={inputs.name} placeholder="Rome" type="text" />
-            <label>Arrival Date</label>
-            <input onChange={handleChange} name="startDate" value={inputs.startDate} type="date" />
-            <label>Departure Date</label>
-            <input onChange={handleChange} name="endDate" value={inputs.endDate} type="date" />
-            <label>Climate</label>
-            <input onChange={handleChange} name="climate" value={inputs.climate} placeholder="warm to hot" type="text" />
-            <button className='saveButton'>Add</button>
-        </form>
-    )
+class DestinationForm extends Component {
+    constructor(props) {
+        super(props);
+        // console.log(this.props.destData.name)
+        // let {name, startDate, endDate, climate, transportation, reservations } = this.props.destData;
+        this.initialState = {
+            inputs: {
+                name: "",
+                startDate: "",
+                endDate: "",
+                climate: "",
+                transportation: [],
+                reservations: []
+            }
+        }
+        this.state = this.initialState;
+    }
+
+    handleChange = (e) => {
+        let { name, value } = e.target;
+        this.setState(prevState => {
+            return {
+                inputs: {
+                    ...prevState.inputs,
+                    [name]: value
+                }
+            }
+        })
+    }
+
+    render() {
+        const { name, startDate, endDate, climate } = this.state.inputs;
+        return (
+            <form onSubmit={(e)=>this.props.addDestination(e, this.state.inputs)} className='genForm'>
+                <button name='dest' className='closeButton' onClick={this.props.closeForm}>&times;</button>
+                <h3>+ Destination</h3>
+                <label htmlFor="destName">Name</label>
+                <input onChange={this.handleChange} name="name" value={name} placeholder="Rome" type="text" />
+                <label htmlFor="destStart">Arrival Date</label>
+                <input onChange={this.handleChange} name="startDate" value={startDate} type="date" />
+                <label htmlFor="destEnd">Departure Date</label>
+                <input onChange={this.handleChange} name="endDate" value={endDate} type="date" />
+                <label htmlFor="climate">Climate</label>
+                <input onChange={this.handleChange} name="climate" value={climate} placeholder="warm to hot" type="text" />
+                <button className='saveButton'>Add</button>
+            </form>
+        )
+    }
 }
 
 export default DestinationForm

@@ -20,6 +20,8 @@ class DestinationsData extends Component {
         this.initialState = {
             addingTransportation: false,
             addingAccommodation: false,
+            transportations: [],
+            accommodations: [],
             editing: false
         }
         this.state = this.initialState;
@@ -35,6 +37,7 @@ class DestinationsData extends Component {
                 break;
             case 'editing':
                 this.setState(prevState => ({editing: !prevState.editing}));
+                break;
             default: break;
         }
     }
