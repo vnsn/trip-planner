@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-function LoggedOut() {
+function logout() {
     return (
         <div>
             <h2>Thank you for using the JAM Trip Organizer.</h2>
@@ -11,4 +11,4 @@ function LoggedOut() {
     )
 }
 
-export default LoggedOut
+export default logout;

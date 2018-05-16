@@ -1,5 +1,13 @@
 import axios from 'axios';
 
+let tripAxios = axios.create();
+
+tripAxios.interceptors.request.use((config)=>{  
+    const token = localStorage.getItem("token");
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
+
 const LOADING = 'LOADING';
 const ERR_MSG = 'ERR_MSG';
 const GET_TRIPS = 'GET_TRIPS';
@@ -7,6 +15,7 @@ const GET_ONE_TRIP = 'GET_ONE_TRIP';
 const ADD_TRIP = 'ADD_TRIP';
 export const EDIT_TRIP = 'EDIT_TRIP';
 const DELETE_TRIP = 'DELETE_TRIP';
+const LOGOUT = 'LOGOUT';
 
 const tripsURL = "/api/trips/";
 
@@ -23,7 +32,7 @@ const initialState = {
 /////////////////////
 export const getTrips = () => {
     return dispatch => {
-        axios.get(tripsURL)
+        tripAxios.get(tripsURL)
             .then(response => {
                 dispatch({
                     type: GET_TRIPS,
@@ -41,7 +50,7 @@ export const getTrips = () => {
 
 export const getOneTrip = (id) => {
     return dispatch => {
-        axios.get(tripsURL + id)
+        tripAxios.get(tripsURL + id)
             .then(response => {
                 dispatch({
                     type: GET_ONE_TRIP,
@@ -59,7 +68,7 @@ export const getOneTrip = (id) => {
 
 export const addTrip = (newTrip) => {
     return dispatch => {
-        axios.post(tripsURL, newTrip)
+        tripAxios.post(tripsURL, newTrip)
             .then(response => {
                 dispatch({
                     type: ADD_TRIP,
@@ -77,7 +86,7 @@ export const addTrip = (newTrip) => {
 
 export const deleteTrip = (id) => {
     return dispatch => {
-        axios.delete(tripsURL + id)
+        tripAxios.delete(tripsURL + id)
             .then(response => {
                 dispatch({
                     type: DELETE_TRIP,
@@ -96,7 +105,7 @@ export const deleteTrip = (id) => {
 export const editTrip = (editedTrip, id) => {
     return dispatch => {
         let url = tripsURL + id;
-        axios.put(url, editedTrip)
+        tripAxios.put(url, editedTrip)
             .then(response => {
                 dispatch({
                     type: EDIT_TRIP,
@@ -164,7 +173,11 @@ const tripsReducer = (state = initialState, action) => {
                 loading: false,
                 data: state.data.filter(trip => trip._id !== action.id)
             }
-
+        case LOGOUT:  
+            return {
+                initialState,
+                loading: false
+            }
         default:
             return state;
     }

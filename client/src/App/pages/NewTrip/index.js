@@ -30,7 +30,7 @@ class NewTrip extends Component {
             reservations: [],
             noName: false,
             noStart: false,
-            initialSubmit: true,
+            initialSubmit: false,
             addingDestination: true,
             addingTransportation: false,
             addingAccommodation: false

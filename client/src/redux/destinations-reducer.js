@@ -1,6 +1,14 @@
 import axios from 'axios';
-
 import { EDIT_TRIP } from './trips-reducer';
+
+let destinationsAxios = axios.create();
+
+destinationsAxios.interceptors.request.use((config)=>{  
+    const token = localStorage.getItem("token");
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
+
 
 const LOADING = 'LOADING';
 const ERR_MSG = 'ERR_MSG';
@@ -9,6 +17,7 @@ const GET_ONE_DESTINATION = 'GET_ONE_DESTINATION';
 const ADD_DESTINATION = 'ADD_DESTINATION';
 export const EDIT_DESTINATION = 'EDIT_DESTINATION';
 const DELETE_DESTINATION = 'DELETE_DESTINATION';
+const LOGOUT = 'LOGOUT';
 
 const destinationsURL = "/api/destinations/";
 
@@ -25,7 +34,7 @@ const initialState = {
 /////////////////////
 export const getDestinations = () => {
     return dispatch => {
-        axios.get(destinationsURL)
+        destinationsAxios.get(destinationsURL)
             .then(response => {
                 dispatch({
                     type: GET_DESTINATIONS,
@@ -43,7 +52,7 @@ export const getDestinations = () => {
 
 export const getOneDestination = (id) => {
     return dispatch => {
-        axios.get(destinationsURL + id)
+        destinationsAxios.get(destinationsURL + id)
             .then(response => {
                 dispatch({
                     type: GET_ONE_DESTINATION,
@@ -61,7 +70,7 @@ export const getOneDestination = (id) => {
 
 export const addDestination = (newDestination, tripID) => {
     return dispatch => {
-        axios.post(destinationsURL, newDestination)
+        destinationsAxios.post(destinationsURL, newDestination)
             .then(response => {
                 dispatch({
                     type: ADD_DESTINATION,
@@ -72,7 +81,7 @@ export const addDestination = (newDestination, tripID) => {
             })
             .then(destID => {
                 let editedTrip = { destinations: destID };
-                axios.post(`/api/trips/${tripID}/add-destination`, editedTrip)
+                destinationsAxios.post(`/api/trips/${tripID}/add-destination`, editedTrip)
                     .then(response => {
                         dispatch({
                             type: EDIT_TRIP,
@@ -92,7 +101,7 @@ export const addDestination = (newDestination, tripID) => {
 
 export const deleteDestination = (id) => {
     return dispatch => {
-        axios.delete(destinationsURL + id)
+        destinationsAxios.delete(destinationsURL + id)
             .then(response => {
                 dispatch({
                     type: DELETE_DESTINATION,
@@ -111,7 +120,7 @@ export const deleteDestination = (id) => {
 export const editDestination = (editedDestination, id) => {
     return dispatch => {
         let url = destinationsURL + id;
-        axios.put(url, editedDestination)
+        destinationsAxios.put(url, editedDestination)
             .then(response => {
                 dispatch({
                     type: EDIT_DESTINATION,
@@ -179,7 +188,11 @@ const destinationsReducer = (state = initialState, action) => {
                 loading: false,
                 data: state.data.filter(destination => destination._id !== action.id)
             }
-
+        case LOGOUT:  
+        return {
+            initialState,
+            loading: false
+        }
         default:
             return state;
     }

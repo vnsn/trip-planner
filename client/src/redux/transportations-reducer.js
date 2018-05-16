@@ -1,6 +1,13 @@
 import axios from 'axios';
-
 import { EDIT_DESTINATION } from './destinations-reducer';
+
+let transportationsAxios = axios.create();
+
+transportationsAxios.interceptors.request.use((config)=>{  
+    const token = localStorage.getItem("token");
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+})
 
 const LOADING = 'LOADING';
 const ERR_MSG = 'ERR_MSG';
@@ -9,6 +16,7 @@ const GET_ONE_TRANSPORTATION = 'GET_ONE_TRANSPORTATION';
 const ADD_TRANSPORTATION = 'ADD_TRANSPORTATION';
 const EDIT_TRANSPORTATION = 'EDIT_TRANSPORTATION';
 const DELETE_TRANSPORTATION = 'DELETE_TRANSPORTATION';
+const LOGOUT = 'LOGOUT';
 
 const transportationsURL = "/api/transportations/";
 
@@ -24,7 +32,7 @@ const initialState = {
 /////////////////////
 export const getTransportation = () => {
     return dispatch => {
-        axios.get(transportationsURL)
+        transportationsAxios.get(transportationsURL)
             .then(response => {
                 dispatch({
                     type: GET_TRANSPORTATIONS,
@@ -42,7 +50,7 @@ export const getTransportation = () => {
 
 export const getOneTransportation = (id) => {
     return dispatch => {
-        axios.get(transportationsURL + id)
+        transportationsAxios.get(transportationsURL + id)
             .then(response => {
                 dispatch({
                     type: GET_ONE_TRANSPORTATION,
@@ -60,7 +68,7 @@ export const getOneTransportation = (id) => {
 
 export const addTransportation = (newTransportation, destID) => {
     return dispatch => {
-        axios.post(transportationsURL, newTransportation)
+        transportationsAxios.post(transportationsURL, newTransportation)
             .then(response => {
                 dispatch({
                     type: ADD_TRANSPORTATION,
@@ -71,7 +79,7 @@ export const addTransportation = (newTransportation, destID) => {
             })
             .then(transID => {
                 let editedDestination = { transportations: transID };
-                axios.post(`/api/destinations/${destID}/add-transportation`, editedDestination)
+                transportationsAxios.post(`/api/destinations/${destID}/add-transportation`, editedDestination)
                     .then(response => {
                         dispatch({
                             type: EDIT_DESTINATION,
@@ -91,7 +99,7 @@ export const addTransportation = (newTransportation, destID) => {
 
 export const deleteTransportation = (id) => {
     return dispatch => {
-        axios.delete(transportationsURL + id)
+        transportationsAxios.delete(transportationsURL + id)
             .then(response => {
                 dispatch({
                     type: DELETE_TRANSPORTATION,
@@ -110,7 +118,7 @@ export const deleteTransportation = (id) => {
 export const editTransportation = (editedTransportation, id) => {
     return dispatch => {
         let url = transportationsURL + id;
-        axios.put(url, editedTransportation)
+        transportationsAxios.put(url, editedTransportation)
             .then(response => {
                 dispatch({
                     type: EDIT_TRANSPORTATION,
@@ -177,7 +185,11 @@ const transportationsReducer = (state = initialState, action) => {
                 loading: false,
                 data: state.data.filter(transportation => transportation._id !== action.id)
             }
-
+        case LOGOUT:  
+        return {
+            initialState,
+            loading: false
+        }
         default:
             return state;
     }

@@ -2,12 +2,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const expressJwt = require("express-jwt");
 
 const logger = require("./middleware/logger");
 const tripRouter = require("./routes/trip-routes");
 const destinationRouter = require("./routes/destination-routes");
 const transportationRouter = require("./routes/transportation-routes");
 const reservationRouter = require("./routes/reservation-routes");
+const authRouter = require("./routes/auth-routes");
 
 // for deploying to Heroku
 const path = require("path");
@@ -23,6 +25,11 @@ app.use("/", logger);
 app.use(express.static(path.join(__dirname, "client", "build")));
 
 //routes
+app.use("/auth", authRouter);
+
+// Make the app use the express-jwt authentication middleware on anything starting with "/api"
+app.use("/api", expressJwt({secret: process.env.SECRET}));
+
 app.use("/api/trips", tripRouter);
 app.use("/api/destinations", destinationRouter);
 app.use("/api/transportations", transportationRouter);

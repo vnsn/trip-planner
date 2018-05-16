@@ -5,9 +5,9 @@ import trips from "./trips-reducer";
 import destinations from "./destinations-reducer";
 import reservations from "./reservations-reducer";
 import transportations from "./transportations-reducer";
-import user from "./auth-reducer";
+import users from "./auth-reducer";
 
-const store = createStore(combineReducers({trips, destinations, reservations, transportations, user}), 
+const store = createStore(combineReducers({trips, destinations, reservations, transportations, users}), 
 window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 applyMiddleware(thunk));
 

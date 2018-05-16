@@ -4,37 +4,46 @@ const TripModel = require("../models/trip-model");
 
 tripRouter.route("/")
     .get((req, res) => {
-        TripModel.find(req.query, (err, foundTrip) => {
-            if (err) res.send(err);
+        // Include filtering criteria to the find so that it only finds 
+        // trips with a 'user' property with the current user's id.
+        TripModel.find({ users: {$eq: req.user._id} }, (err, foundTrip) => {
+            if (err) return res.status(500).send(err);
             else res.status(200).send(foundTrip);
         })
     })
     .post((req, res) => {
         const newTrip = new TripModel(req.body);
+
+        // Set the user property of a trip to req.user._id (logged-in user's `_id` property)
+        newTrip.users.push(req.user._id);
+
         newTrip.save((err, addedTrip) => {
-            if (err) res.send(err);
+            if (err) return res.status(500).send(err);
             else res.status(201).send(addedTrip);
         })
     });
 
 tripRouter.route("/:id")
     .get((req, res) => {
-        TripModel.findOne({ _id: req.params.id }, (err, foundTrip) => {
-            if (err) return res.send(err);
+        // Include the search criteria for users
+        TripModel.findOne({ _id: req.params.id, users: {$eq: req.user._id} }, (err, foundTrip) => {
+            if (err) return res.status(500).send(err);
             if (!foundTrip) return res.status(404).send({ message: "Not found" });
             res.status(200).send(foundTrip);
         })
     })
     .delete((req, res) => {
-        TripModel.findOneAndRemove({ _id: req.params.id }, (err, deletedTrip) => {
-            if (err) return res.send(err);
+        // Include the search criteria for users
+        TripModel.findOneAndRemove({ _id: req.params.id, users: {$eq: req.user._id} }, (err, deletedTrip) => {
+            if (err) return res.status(500).send(err);
             if (!deletedTrip) return res.status(404).send({ message: "Not found" });
             res.status(200).send(`${deletedTrip.name} was deleted.`);
         })
     })
     .put((req, res) => {
-        TripModel.findOneAndUpdate({ _id: req.params.id }, req.body, { returnNewDocument: true }, (err, updatedTrip) => {
-            if (err) return res.send(err);
+        // Include the query for users
+        TripModel.findOneAndUpdate({ _id: req.params.id, users: {$eq: req.user._id}  }, req.body, { returnNewDocument: true }, (err, updatedTrip) => {
+            if (err) return res.status(500).send(err);
             if (!updatedTrip) return res.status(404).send({ message: "Not found" });
             res.status(200).send(updatedTrip);
         });
@@ -42,7 +51,7 @@ tripRouter.route("/:id")
 tripRouter.route("/:id/add-destination")
     .post((req, res) => {
         TripModel.findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true }, (err, updatedTrip) => {
-            if (err) return res.send(err);
+            if (err) return res.status(500).send(err);
             if (!updatedTrip) return res.status(404).send({ message: `${req.params.id} Not found`});
             res.status(200).send(updatedTrip);
         })
