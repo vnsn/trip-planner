@@ -10,6 +10,7 @@ const destinationRouter = require("./routes/destination-routes");
 const transportationRouter = require("./routes/transportation-routes");
 const reservationRouter = require("./routes/reservation-routes");
 const authRouter = require("./routes/auth-routes");
+const profileRouter = require("./routes/profile-routes");
 
 // for deploying to Heroku
 const path = require("path");
@@ -34,6 +35,7 @@ app.use("/api/trips", tripRouter);
 app.use("/api/destinations", destinationRouter);
 app.use("/api/transportations", transportationRouter);
 app.use("/api/reservations", reservationRouter);
+app.use("/api/profile", profileRouter);
 
 // database
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/organizer", err => {
