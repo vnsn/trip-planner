@@ -15,7 +15,7 @@ const ERASE_ERROR = 'ERASE_ERROR';
 
 const signupURL = "/auth/signup/";
 const loginURL = "/auth/login/";
-const profileURL = "/api/profile";
+const profileURL = "/api/profile/";
 
 
 
@@ -84,6 +84,8 @@ export function verify() {
         profileAxios.get(profileURL)
             .then(response => {
                 let { user } = response.data;
+                console.log(user)
+                
                 dispatch(authenticate(user));
             })
             .catch(err => {

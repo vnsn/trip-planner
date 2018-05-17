@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const autopopulate = require("mongoose-autopopulate");
+
 const { Schema } = mongoose;
 
 const destinationSchema = new Schema({
@@ -22,16 +24,20 @@ const destinationSchema = new Schema({
 
     transportations: [{
         type: Schema.Types.ObjectId,
-        ref: "Transportation"
+        ref: "Transportation", 
+        autopopulate: true
     }],
 
     reservations: [{
         type: Schema.Types.ObjectId,
-        ref: "Reservation"
+        ref: "Reservation",
+        autopopulate: true
     }]
 
 
 },{timestamps: true});
+
+destinationSchema.plugin(autopopulate);
 
 const DestinationModel = mongoose.model("Destination", destinationSchema);
 module.exports = DestinationModel;
