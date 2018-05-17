@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import DestinationsData from '../pages/NewTrip/DestinationsData';
-import NewTripData from '../pages/NewTrip/NewTripData';
+import DestinationsData from '../../pages/TripDisplay/DestinationsData';
+import NewTripData from '../../pages/NewTrip/NewTripData';
 
 // SHARED
-import Loading from '../shared/Loading';
-import ErrorHandler from '../shared/ErrorHandler';
+import Loading from '../../shared/Loading';
+import ErrorHandler from '../../shared/ErrorHandler';
 // import DataList from '../shared/DataList';
 
 // FORMS
-import DestinationForm from './NewTrip/DestinationForm';
+import DestinationForm from '../../pages/TripDisplay/DestinationForm';
 // import TransportationForm from './NewTrip/TransportationForm';
 // import AccommodationForm from './NewTrip/AccommodationForm';
 
 // REDUX
 import { connect } from 'react-redux';
-import { getOneTrip } from '../../redux/trips-reducer';
-import { addDestination } from '../../redux/destinations-reducer';
+import { getOneTrip } from '../../../redux/trips-reducer';
+import { addDestination } from '../../../redux/destinations-reducer';
 // import { addReservation } from '../../redux/reservations-reducer';
 
 class TripDisplay extends Component {
@@ -27,14 +27,15 @@ class TripDisplay extends Component {
             transNoName: false,
             accomNoName: false,
             resNoName: false,
-            addingDestination: true
+            addingDestination: true,
+            editingTrip: false
         }
         console.log(this.state.foundTrip)
     }
 
-    componentDidMount(){
-        this.props.getOneTrip(this.props.match.params.id);
-    }
+    // componentDidMount(){
+    //     this.props.getOneTrip(this.props.match.params.id);
+    // }
 
     addDestination = (e, dest) => {
         e.preventDefault();
@@ -45,7 +46,6 @@ class TripDisplay extends Component {
     render() {
         const { loading, errMsg, data } = this.props.trips.data;
         const { addingDestination } = this.state;
-        console.log(this)
         return (
             <div>
                 trip display
@@ -55,7 +55,7 @@ class TripDisplay extends Component {
                         
                         {/* GEN NEW TRIP DATA */}
 
-                        <NewTripData {...this.props.trips.data} />
+                        <NewTripData id={this.props.match.params.id} />
 
                         {/* DESTINATIONS DATA */}
 

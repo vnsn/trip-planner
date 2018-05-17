@@ -5,11 +5,11 @@ import Loading from '../../shared/Loading';
 
 // FORMS
 import NewTripForm from "./NewTripForm";
-import DestinationForm from './DestinationForm';
+import DestinationForm from '../TripDisplay/DestinationForm';
 
 // DATA DISPLAYS
 import NewTripData from './NewTripData';
-import DestinationsData from './DestinationsData';
+import DestinationsData from '../TripDisplay/DestinationsData';
 
 // REDUX
 import { connect } from 'react-redux';

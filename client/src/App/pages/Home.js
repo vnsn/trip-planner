@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
 import { getTrips } from "../../redux/trips-reducer";
-import TripDisplay from './TripDisplay';
+import TripDisplay from './TripDisplay/TripDisplay';
 import TripsList from "./TripsList";
 
 class Home extends Component {
