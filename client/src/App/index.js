@@ -11,8 +11,8 @@ import Footer from "./Footer";
 // ROUTES
 import Login from "./pages/Login";
 import Home from './pages/Home';
-import TripDisplay from './pages/TripDisplay';
-import NewTrip from './pages/NewTrip';
+import TripDisplay from './pages/TripDisplay/TripDisplay.js';
+import NewTrip from './pages/NewTrip/NewTrip';
 import About from './pages/About';
 import ProtectedRoute from "./ProtectedRoute";
 

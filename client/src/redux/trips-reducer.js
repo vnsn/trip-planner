@@ -27,7 +27,6 @@ const initialState = {
     newestLoading: true
 }
 
-
 /////////////////////
 // Action Creators //
 /////////////////////
