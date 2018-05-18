@@ -84,7 +84,6 @@ export function verify() {
         profileAxios.get(profileURL)
             .then(response => {
                 let { user } = response.data;
-                console.log(user)
                 
                 dispatch(authenticate(user));
             })

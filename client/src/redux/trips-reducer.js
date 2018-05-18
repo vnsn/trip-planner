@@ -1,14 +1,16 @@
 import axios from 'axios';
+import {getDestinations} from "./destinations-reducer";
 
 let tripAxios = axios.create();
 
-tripAxios.interceptors.request.use((config)=>{  
+tripAxios.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
     config.headers.Authorization = `Bearer ${token}`;
     return config;
 })
 
 const LOADING = 'LOADING';
+const CURRENTLOADING = 'CURRENTLOADING'
 const ERR_MSG = 'ERR_MSG';
 const GET_TRIPS = 'GET_TRIPS';
 const GET_ONE_TRIP = 'GET_ONE_TRIP';
@@ -23,8 +25,8 @@ const initialState = {
     data: [],
     loading: true,
     errMsg: "",
-    newestTrip: {},
-    newestLoading: true
+    currentTrip: {},
+    currentLoading: true
 }
 
 /////////////////////
@@ -32,6 +34,9 @@ const initialState = {
 /////////////////////
 export const getTrips = () => {
     return dispatch => {
+        dispatch({
+            type: LOADING
+        })
         tripAxios.get(tripsURL)
             .then(response => {
                 dispatch({
@@ -56,6 +61,7 @@ export const getOneTrip = (id) => {
                     type: GET_ONE_TRIP,
                     data: response.data
                 })
+                dispatch(getDestinations());
             })
             .catch(err => {
                 dispatch({
@@ -68,11 +74,14 @@ export const getOneTrip = (id) => {
 
 export const addTrip = (newTrip) => {
     return dispatch => {
+        dispatch({
+            type: CURRENTLOADING
+        })
         tripAxios.post(tripsURL, newTrip)
             .then(response => {
                 dispatch({
                     type: ADD_TRIP,
-                    newTrip: response.data,
+                    currentTrip: response.data,
                 })
             })
             .catch(err => {
@@ -84,21 +93,22 @@ export const addTrip = (newTrip) => {
     }
 }
 
-export const deleteTrip = (id) => {
+export const deleteTrip = (id, goTo) => {
     return dispatch => {
         tripAxios.delete(tripsURL + id)
             .then(response => {
                 dispatch({
                     type: DELETE_TRIP,
                     id
-                })
+                });
+                goTo("/home");
             })
             .catch(err => {
                 dispatch({
                     type: ERR_MSG,
                     errMsg: `DELETE: ${err}`
                 })
-            })
+            });
     }
 }
 
@@ -130,7 +140,14 @@ const tripsReducer = (state = initialState, action) => {
         case LOADING:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                errMsg: ""
+            }
+        case CURRENTLOADING:
+            return {
+                ...state,
+                currentLoading: true,
+                errMsg: ""
             }
         case ERR_MSG:
             return {
@@ -147,16 +164,16 @@ const tripsReducer = (state = initialState, action) => {
         case GET_ONE_TRIP:
             return {
                 ...state,
-                loading: false,
-                data: action.data
+                currentLoading: false,
+                currentTrip: action.data
             }
         case ADD_TRIP:
             return {
                 ...state,
                 loading: false,
-                data: [...state.data, action.newTrip],
-                newestTrip: action.newTrip,
-                newestLoading: false
+                data: [...state.data, action.currentTrip],
+                currentTrip: action.currentTrip,
+                currentLoading: false
             }
         case EDIT_TRIP:
             return {
@@ -172,9 +189,11 @@ const tripsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                data: state.data.filter(trip => trip._id !== action.id)
+                data: state.data.filter(trip => trip._id !== action.id),
+                currentTrip: "",
+                currentLoading: false
             }
-        case LOGOUT:  
+        case LOGOUT:
             return {
                 ...initialState,
                 loading: false

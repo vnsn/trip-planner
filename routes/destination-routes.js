@@ -44,7 +44,6 @@ destinationRouter.route("/:id/add-reservation")
     .post((req, res) => {
         DestinationModel
             .findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true })
-            .populate("reservations")
             .exec((err, updatedDestination) => {
                 if (err) return res.send(err);
                 if (!updatedDestination) return res.status(404).send({ message: `Destination ID ${req.params.id} Not found` });
@@ -52,12 +51,10 @@ destinationRouter.route("/:id/add-reservation")
         })
     })
 
-
 destinationRouter.route("/:id/add-transportation")
     .post((req, res) => {
         DestinationModel
             .findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true })
-            .populate("transportations")
             .exec((err, updatedDestination) => {
                 if (err) return res.send(err);
                 if (!updatedDestination) return res.status(404).send({ message: `Destination ID ${req.params.id} Not found` });

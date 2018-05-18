@@ -8,7 +8,6 @@ tripRouter.route("/")
         // trips with a 'user' property with the current user's id.
         TripModel
         .find({ users: {$eq: req.user._id} })
-        .populate("destinations")
         .exec((err, foundTrip) => {
             if (err) return res.status(500).send(err);
             else res.status(200).send(foundTrip);

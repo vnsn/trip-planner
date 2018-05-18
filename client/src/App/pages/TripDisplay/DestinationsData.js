@@ -1,42 +1,49 @@
 import React, { Component } from 'react';
 
+//HELPERS
+import Toggler from "../../shared/Toggler";
+
 // FORMS
 import DestinationForm from './DestinationForm';
-import TransportationForm from './TransportationForm';
-import AccommodationForm from './AccommodationForm';
+// import TransportationForm from './TransportationForm';
+// import AccommodationForm from './AccommodationForm';
 
 // DATA DISPLAYS
-import TransportationsData from './TransportationsData';
-import AccommodationsData from './AccommodationsData';
+// import TransportationsData from './TransportationsData';
+// import AccommodationsData from './AccommodationsData';
 
 // REDUX
 import { connect } from 'react-redux';
-import { addTransportation } from '../../../redux/transportations-reducer';
-import { addReservation } from '../../../redux/reservations-reducer';
+import { deleteDestination, getDestinations, editDestination } from '../../../redux/destinations-reducer';
 
 class DestinationsData extends Component {
     constructor(props) {
         super(props);
         this.initialState = {
             addingTransportation: false,
-            addingAccommodation: false,
-            transportations: [],
-            accommodations: [],
+            addingReservation: false,
             editing: false
         }
         this.state = this.initialState;
     }
 
+    componentDidMount(props) {
+        this.props.getDestinations()
+    }
+    componentWillReceiveProps(nextProps) {
+    }
+
     openForm = (e) => {
+        console.log(e.target.name)
         switch (e.target.name) {
             case 'trans':
-                this.setState(prevState => ({addingTransportation: !prevState.addingTransportation}));
+                this.setState(prevState => ({ addingTransportation: !prevState.addingTransportation }));
                 break;
             case 'accom':
-                this.setState(prevState => ({addingAccommodation: !prevState.addingAccommodation}));
+                this.setState(prevState => ({ addingAccommodation: !prevState.addingAccommodation }));
                 break;
             case 'editing':
-                this.setState(prevState => ({editing: !prevState.editing}));
+                this.setState(prevState => ({ editing: !prevState.editing }));
                 break;
             default: break;
         }
@@ -52,71 +59,76 @@ class DestinationsData extends Component {
         })
         this.props.addTransportation(trans, this.props.destinations.currentDestination._id);
     }
-    addAccommodation = (e, accom) => {
+    addReservation = (e, accom) => {
         e.preventDefault();
         this.setState(prevState => {
             return {
                 ...prevState,
                 accommodations: [...prevState.accommodations, accom],
-                addingAccommodation: false
+                addingReservation: false
             }
         })
-        console.log(this.props.destinations.currentDestination._id)        
         this.props.addReservation(accom, this.props.destinations.currentDestination._id);
     }
 
+    editDest = (dest, destID) => {
+        this.props.editDestination(dest, destID);
+        this.setState(prevState => ({ editing: false }));
+    }
+
     render() {
-        console.log(this.props.destinations.data)
-        let { data } = this.props.destinations;
-        let { addingTransportation,
-            addingAccommodation,
-            transportations,
-            accommodations,
-            editing } = this.state;
         return (
             <div className='destinationsData'>
-                {data &&
-                    data.map((dest, i) =>
-                        <div className='destination' key={dest._id}>
+                {/* /destinations data/ */}
+                {this.props.destinations.data &&
+                    this.props.destinations.data.filter(dest => dest.tripID === this.props.tripID).map((dest, i) =>
+                        <Toggler key={dest._id} render={({ isToggled, toggle }) => {
+                            return (
+                                <div className='destination' >
+                                    <h4>{dest.name}</h4>
+                                    <div className="trip-list-dates">
+                                        {dest.startDate && <p>Start Date: {new Date(dest.startDate).toLocaleDateString()}</p>}
+                                        {dest.endDate && <p>End Date: {new Date(dest.endDate).toLocaleDateString()}</p>}
+                                    </div>
+                                    <div className='climate'>
+                                        {dest.climate && <p>Climate: {dest.climate}</p>}
+                                    </div>
 
+                                    <button name='deleting' onClick={() => this.props.deleteDestination(dest._id)}>Delete</button>
+                                    <button name='editing' onClick={toggle}>Edit</button>
+                                    {isToggled && <DestinationForm submit={inputs => this.editDest(inputs, dest._id)} {...dest} formCode="editing"tripID={this.props.tripID} toggle={toggle} />}
 
-                            <h4>{dest.name}</h4>
-                            <div className="trip-list-dates">
-                                {dest.startDate && <p>Start Date: {new Date(dest.startDate).toLocaleDateString()}</p>}
-                                {dest.endDate && <p>End Date: {new Date(dest.endDate).toLocaleDateString()}</p>}
-                            </div>
-                            <div className='climate'>
-                                {dest.climate && <p>Climate: {dest.climate}</p>}
-                            </div>
-                            <button name='editing' onClick={this.openForm}>Edit</button>
+                                    {/* TRANSPORTATIONS OF DESTINATION DATA */}
 
-                            {editing && <DestinationForm {...dest} />}
+                                    {/* <TransportationsData /> */}
 
-                            {/* TRANSPORTATIONS OF DESTINATION DATA */}
+                                    {/* ADD TRANSPORTATION FORM/TOGGLE */}
 
-                            <TransportationsData transportations={transportations} />
-
-                            {/* ADD TRANSPORTATION FORM/TOGGLE */}
-
-                            {addingTransportation ?
+                                    {/* {addingTransportation ?
                                 <TransportationForm addTransportation={this.addTransportation} closeForm={this.openForm} /> :
-                                <button className='addFormButton' name="trans" onClick={this.openForm}>+ Transportation</button>}
+                                <button className='addFormButton' name="trans" onClick={this.openForm}>+ Transportation</button>} */}
 
-                            {/* ACCOMMODATIONS OF DESTINATION DATA */}
+                                    {/* ACCOMMODATIONS OF DESTINATION DATA */}
 
-                            <AccommodationsData accommodations={accommodations} />
+                                    {/* <AccommodationsData /> */}
 
-                            {/* ADD ACCOMMODATION FORM/TOGGLE */}
+                                    {/* ADD ACCOMMODATION FORM/TOGGLE */}
 
-                            {addingAccommodation ?
+                                    {/* {addingAccommodation ?
                                 <AccommodationForm addAccommodation={this.addAccommodation} closeForm={this.openForm} /> :
-                                <button className='addFormButton' name="accom" onClick={this.openForm}>+ Accommodation</button>}
+                                <button className='addFormButton' name="accom" onClick={this.openForm}>+ Accommodation</button>} */}
 
-                        </div>
-                    )}
+                                </div>
+                            )
+                        }
+                        } />
+                    )
+                }
             </div>
         )
     }
 }
 
-export default connect(state => state, { addTransportation, addReservation })(DestinationsData);
+
+
+export default connect(state => state, { getDestinations, deleteDestination, editDestination })(DestinationsData);

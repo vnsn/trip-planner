@@ -7,8 +7,8 @@ const expressJwt = require("express-jwt");
 const logger = require("./middleware/logger");
 const tripRouter = require("./routes/trip-routes");
 const destinationRouter = require("./routes/destination-routes");
-const transportationRouter = require("./routes/transportation-routes");
-const reservationRouter = require("./routes/reservation-routes");
+// const transportationRouter = require("./routes/transportation-routes");
+// const reservationRouter = require("./routes/reservation-routes");
 const authRouter = require("./routes/auth-routes");
 const profileRouter = require("./routes/profile-routes");
 
@@ -33,8 +33,8 @@ app.use("/api", expressJwt({secret: process.env.SECRET}));
 
 app.use("/api/trips", tripRouter);
 app.use("/api/destinations", destinationRouter);
-app.use("/api/transportations", transportationRouter);
-app.use("/api/reservations", reservationRouter);
+// app.use("/api/transportations", transportationRouter);
+// app.use("/api/reservations", reservationRouter);
 app.use("/api/profile", profileRouter);
 
 // database

@@ -25,7 +25,6 @@ class ReservationModal extends Component {
 
     handleChange = (e) => {
         let { name, value } = e.target;
-        console.log(this.state.inputs.type)
         this.setState(prevState => {
             return {
                 inputs: {
@@ -40,7 +39,6 @@ class ReservationModal extends Component {
     }
     submitReservation = (e) => {
         e.preventDefault();
-        console.log(this.props.destinations.currentDestination._id)
         if (this.state.inputs.name && this.state.inputs.confirmationNumber) {
             this.props.addReservation(this.state.inputs, this.props.destinations.currentDestination._id);
             this.props.toggleResModal();

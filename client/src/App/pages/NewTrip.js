@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 
 // SHARED
-import Loading from '../../shared/Loading';
+import Loading from '../shared/Loading';
 
 // FORMS
-import NewTripForm from "./NewTripForm";
-import DestinationForm from '../TripDisplay/DestinationForm';
-
-// DATA DISPLAYS
-import NewTripData from './NewTripData';
-import DestinationsData from '../TripDisplay/DestinationsData';
+import TripForm from "./TripDisplay/TripForm";
 
 // REDUX
 import { connect } from 'react-redux';
-import { addTrip, getTrips, editTrip } from '../../../redux/trips-reducer';
-import { addDestination } from '../../../redux/destinations-reducer';
-import { Redirect } from 'react-router-dom';
+import { addTrip, getTrips, editTrip } from '../../redux/trips-reducer';
+import { addDestination } from '../../redux/destinations-reducer';
+import { Redirect, withRouter } from 'react-router-dom';
 
 class NewTrip extends Component {
     constructor(props) {
@@ -46,7 +41,6 @@ class NewTrip extends Component {
             }
         })
     }
-
     openForm = (e) => {
         switch (e.target.name) {
             case 'dest':
@@ -66,16 +60,14 @@ class NewTrip extends Component {
     }
 
     render() {
-        console.log(this.props)
         const { inputs,
             noName,
             noStart,
-            initialSubmit,
-            addingDestination } = this.state;
+            initialSubmit } = this.state;
         if(!initialSubmit)
         return (
             <div className='newTrip'>
-                <NewTripForm
+                <TripForm
                     createTrip={this.createTrip}
                     handleChange={this.handleChange}
                     inputs={inputs}
@@ -85,11 +77,11 @@ class NewTrip extends Component {
             </div>
         )
         return (
-            <Loading loading={this.props.trips.newestLoading} render={() => <div>...loading</div>}>
-                <Redirect to={'/trip/' + this.props.trips.newestTrip._id} />
+            <Loading loading={this.props.trips.currentLoading} render={() => <div>...loading</div>}>
+                <Redirect to={'/trip/' + this.props.trips.currentTrip._id} />
             </Loading>
         )
     }
 }
 
-export default connect(state => state, { addTrip, getTrips, editTrip, addDestination })(NewTrip);
+export default withRouter(connect(state => state, { addTrip, getTrips, editTrip, addDestination })(NewTrip));
