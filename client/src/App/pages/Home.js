@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Redirect } from "react-router";
+import { Redirect, withRouter } from "react-router";
 
 import { getTrips } from "../../redux/trips-reducer";
-import TripDisplay from './TripDisplay/TripDisplay';
 import TripsList from "./TripsList";
 
 class Home extends Component {
@@ -18,17 +17,15 @@ class Home extends Component {
         if (loading) {
             return <p>Loading... please wait.</p>
         } else if (errMsg) {
-            return <p>Can't get list of trips.</p>
+            return <p>{`home errMsg: ${errMsg}`}</p>
         } else {
-
-
             if (data.length > 1) {
                 return (
                     <TripsList data={data} />
                 )
             } else if (data.length === 1) {
                 return (
-                    <TripDisplay data={data} />
+                    <Redirect to={`/trip/${data[0]._id}`} />
                 )
             } else {
                 return (
@@ -39,4 +36,4 @@ class Home extends Component {
     }
 }
 
-export default connect(state => state, { getTrips })(Home);
+export default withRouter(connect(state => state, { getTrips })(Home));

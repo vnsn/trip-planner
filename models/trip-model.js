@@ -18,11 +18,6 @@ const tripSchema = new Schema({
         type: Date
     },
 
-    destinations: [{
-        type: Schema.Types.ObjectId,
-        ref: "Destination"
-    }],
-
     users: [{
         type: Schema.Types.ObjectId,
         ref: "User", 

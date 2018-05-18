@@ -10,7 +10,6 @@ const destinationSchema = new Schema({
     },
 
     startDate: {
-        // required: true,
         type: Date
     },
 
@@ -19,23 +18,86 @@ const destinationSchema = new Schema({
     },
 
     climate: String,
-    
+
     type: String,
 
+    reservations: [{
+            resName: {
+                required: true,
+                type: String
+            },
+            departDate: {
+                type: Date
+            },
+            arriveDate: {
+                type: Date,
+            },
+            departTime: {
+                type: String
+            },
+            arriveTime: {
+                type: String
+            },
+            reservationMade: {
+                type: Boolean
+            },
+            modeSelector: {
+                type: String,
+            },
+            cost: {
+                type: Number
+            },
+        }],
+
     transportations: [{
-        type: Schema.Types.ObjectId,
-        ref: "Transportation", 
-        autopopulate: true
+        transName: {
+            required: true,
+            type: String
+        },
+        departDate: {
+            type: Date
+        },
+        arriveDate: {
+            type: Date,
+        },
+        departTime: {
+            type: String
+        },
+        arriveTime: {
+            type: String
+        },
+        reservationMade: {
+            type: Boolean
+        },
+        modeSelector: {
+            type: String,
+        },
+        cost: {
+            type: Number
+        },
+        confirmationNumber: {
+            type: Number
+        },
+        howEarly: {
+            type: String
+        },
+        seatNumber: {
+            type: String
+        },
+        phone: {
+            type: Number
+        },
+        address: {
+            type: String
+        }
     }],
 
-    reservations: [{
+    tripID: {
         type: Schema.Types.ObjectId,
-        ref: "Reservation",
-        autopopulate: true
-    }]
+        ref: "Trip",
+    },
 
-
-},{timestamps: true});
+}, { timestamps: true });
 
 destinationSchema.plugin(autopopulate);
 
