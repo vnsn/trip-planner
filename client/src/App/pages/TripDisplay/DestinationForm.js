@@ -5,10 +5,10 @@ class DestinationForm extends Component {
         super(props);
         this.initialState = {
             inputs: {
-                name: "",
-                startDate: "",
-                endDate: "",
-                climate: "",
+                name: props.inputs.name || "",
+                startDate: props.inputs.startDate || "",
+                endDate: props.inputs.endDate || "",
+                climate: props.inputs.climate || "",
                 transportation: [],
                 reservations: [],
                 tripID: this.props.tripID
@@ -31,6 +31,7 @@ class DestinationForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.submit(this.state.inputs);
+        this.props.toggle();
     }
 
     render() {

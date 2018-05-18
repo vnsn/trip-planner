@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getTrips, getOneTrip, editTrip, deleteTrip } from '../../../redux/trips-reducer';
 import { withRouter } from 'react-router-dom';
 import { formatDateForInputs } from '../../shared/helper';
+import moment from 'moment';
 
 class TripData extends Component {
     constructor(props) {
@@ -48,17 +49,18 @@ class TripData extends Component {
 
     render() {
         // if (this.state.isDeleted) return <Redirect to="/home" />
+        console.log(this.props.startDate, this.props.endDate);
         const { form, inputs, noName, noStart } = this.state;
-        let displayStartDate = formatDateForInputs(inputs.startDate);
         let displayEndDate = formatDateForInputs(inputs.endDate);
+        let displayStartDate = formatDateForInputs(inputs.startDate);
         if (!form)
             return (
                 <div className='tripData'>
                     {/* /trip data/ */}
                     <h2 className='tripTitle'>{inputs.name}</h2>
                     <div className="tripDates">
-                        {inputs.startDate && <div className='tripDate'>Start Date: <span>{new Date(inputs.startDate).toLocaleDateString()}</span></div>}
-                        {inputs.endDate && <div className='tripDate'>End Date: <span>{new Date(inputs.endDate).toLocaleDateString()}</span></div>}
+                        {inputs.startDate && <div className='tripDate'>Start Date: <span>{moment(inputs.startDate).add(1, 'days').format('MMM DD, YYYY')}</span></div>}
+                        {inputs.endDate && <div className='tripDate'>End Date: <span>{moment(inputs.endDate).add(1, 'days').format('MMM DD, YYYY')}</span></div>}
                     </div>
                     <div className='buttonsContainer'>
                         <button onClick={this.showForm} className='editButton'>Edit</button>
@@ -79,7 +81,7 @@ class TripData extends Component {
                 <input onChange={this.handleChange} name="startDate" value={displayStartDate} type="date" />
                 <label>End Date</label>
                 <input onChange={this.handleChange} name="endDate" value={displayEndDate} type="date" />
-                <button onClick={this.handleSubmit}>Submit</button>
+                <button onClick={this.handleSubmit} className='submitButton'>Save</button>
             </form>
         )
     }

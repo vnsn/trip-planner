@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 //HELPERS
 import Toggler from "../../shared/Toggler";
@@ -85,18 +86,21 @@ class DestinationsData extends Component {
                         <Toggler key={dest._id} render={({ isToggled, toggle }) => {
                             return (
                                 <div className='destination' >
-                                    <h4>{dest.name}</h4>
-                                    <div className="trip-list-dates">
-                                        {dest.startDate && <p>Start Date: {new Date(dest.startDate).toLocaleDateString()}</p>}
-                                        {dest.endDate && <p>End Date: {new Date(dest.endDate).toLocaleDateString()}</p>}
+                                    <h4 className='destTitle'>{dest.name}</h4>
+                                    <div className="tripDates">
+                                        {/* {dest.startDate && <p>Start Date: {new Date(dest.startDate).toLocaleDateString()}</p>} */}
+                                        {dest.startDate && <p>Start Date: {moment(dest.startDate).add(1, 'days').format('MMM DD, YYYY')}</p>}
+                                        {/* {dest.endDate && <p>End Date: {new Date(dest.endDate).toLocaleDateString()}</p>} */}
+                                        {dest.endDate && <p>End Date: {moment(dest.endDate).add(1, 'days').format('MMM DD, YYYY')}</p>}
                                     </div>
                                     <div className='climate'>
                                         {dest.climate && <p>Climate: {dest.climate}</p>}
                                     </div>
-
-                                    <button name='deleting' onClick={() => this.props.deleteDestination(dest._id)}>Delete</button>
-                                    <button name='editing' onClick={toggle}>Edit</button>
-                                    {isToggled && <DestinationForm submit={inputs => this.editDest(inputs, dest._id)} {...dest} formCode="editing"tripID={this.props.tripID} toggle={toggle} />}
+                                    <div className='buttonsContainer'>
+                                        <button name='deleting' onClick={() => this.props.deleteDestination(dest._id)} className='deleteButton'>Delete</button>
+                                        <button name='editing' onClick={toggle} className='editButton'>Edit</button>
+                                    </div>
+                                    {isToggled && <DestinationForm inputs={dest} submit={inputs => this.editDest(inputs, dest._id)} {...dest} formCode="editing" tripID={this.props.tripID} toggle={toggle} />}
 
                                     {/* TRANSPORTATIONS OF DESTINATION DATA */}
 
