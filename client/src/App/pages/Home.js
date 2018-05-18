@@ -13,26 +13,29 @@ class Home extends Component {
 
     render() {
         const { data, loading, errMsg } = this.props.trips;
+        return (
+            <TripsList data={data} />
+        )
 
-        if (loading) {
-            return <p>Loading... please wait.</p>
-        } else if (errMsg) {
-            return <p>{`home errMsg: ${errMsg}`}</p>
-        } else {
-            if (data.length > 1) {
-                return (
-                    <TripsList data={data} />
-                )
-            } else if (data.length === 1) {
-                return (
-                    <Redirect to={`/trip/${data[0]._id}`} />
-                )
-            } else {
-                return (
-                    <Redirect to="/new-trip" />
-                )
-            }
-        }
+        // if (loading) {
+        //     return <p>Loading... please wait.</p>
+        // } else if (errMsg) {
+        //     return <p>{`home errMsg: ${errMsg}`}</p>
+        // } else {
+        //     if (data.length > 1) {
+        //         return (
+        //             <TripsList data={data} />
+        //         )
+        //     } else if (data.length === 1) {
+        //         return (
+        //             <Redirect to={`/trip/${data[0]._id}`} />
+        //         )
+        //     } else {
+        //         return (
+        //             <Redirect to="/new-trip" />
+        //         )
+        //     }
+        // }
     }
 }
 

@@ -62,12 +62,16 @@ button {
     background: plum;
 }
 .buttonsContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .editButton,
 .deleteButton {
-    padding: .2em;
+    padding: 0 .2em;
     font-size: 1em;
     border-radius: 5px;
+    width: 120px;
 }
 .editButton {
     margin-right: 10px;
@@ -83,7 +87,6 @@ button {
 .topNav {
     display: flex;
     justify-content: flex-end;
-    border-bottom: 1px solid #ddd;
     position: relative;
 }
 .topNavTitleContainer {
@@ -131,7 +134,7 @@ button {
     position: absolute;
     top: 48px;
     right: 5px;
-    background: #ddd;
+    background: rgba(221, 160, 221, 0.5);
     list-style: none;
     width: 12em;
 }
@@ -145,8 +148,8 @@ button {
     text-decoration: none;
 }
 .topNavMenuItem:hover {
-    background: #ddd;
-    box-shadow: inset 0 0 5px plum;
+    background: rgba(221, 160, 221, 0.6);
+    /* box-shadow: inset 0 0 5px plum; */
 }
 
 /* FOOTER COMPONENT */
@@ -154,7 +157,7 @@ button {
 .footer {
     text-align: center;
     padding: 1rem;
-    border-top: 1px solid #ddd;
+    /* border-top: 1px solid #ddd; */
 }
 
 /* LOGIN COMPONENT */
@@ -165,9 +168,23 @@ button {
     align-items: center;
     justify-content: center;
     height: 85vh;
-    background: #eee;
-    min-height: 450px;    
+    background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cea32ac97f8ffde3f76df4a646ac8b4d&auto=format&fit=crop&w=3300&q=80');
+    background-position: center;
+    background-repeat: none;
+    background-attachment: scroll;
+    background-size: cover;
+    /* box-shadow: 
+        inset 0px 15px 10px -10px #fff,
+        inset 0px -15px 10px -10px #fff;  */
+    min-height: 450px;
+    /* transition: 1s; */
 }
+/* .login:hover {
+    box-shadow: 
+        inset 0px 15px 15px -5px #fff,
+        inset 0px -15px 15px -10px #fff; 
+    transition: 1s;
+} */
 .loginForm {
     display: flex;
     flex-direction: column;
@@ -184,6 +201,8 @@ button {
 }
 .login > h2 {
     padding: 1em;
+    text-shadow: 0 0 5px #fff;
+    /* color: #fff */
 }
 .login > p {
     padding: 0 0 1em 0;
@@ -235,6 +254,11 @@ button {
     justify-content: center;
     min-height: 85vh;
     background: #eee;
+    background-image: url('https://images.unsplash.com/photo-1495954484750-af469f2f9be5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=87ec405669df2423b33545ef51c7fc4d&auto=format&fit=crop&w=3300&q=80');
+    background-position: center;
+    background-repeat: none;
+    background-attachment: scroll;
+    background-size: cover;
 }
 
 /* NEW TRIP FORM */
@@ -285,6 +309,7 @@ button {
     background: #fff;
     margin-top: 1em;
     position: relative;
+    width: 80%;
 }
 .genForm > label,
 .genForm > input {
@@ -313,6 +338,12 @@ button {
 }
 .tripDate > p {
     padding-left: 10px;
+}
+
+/* TRIP DISPLAY */
+
+.tripDisplay {
+    min-height: 85vh;
 }
 
 /* NEW TRIP DATA - DESTINATIONS */

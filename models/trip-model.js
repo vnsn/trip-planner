@@ -18,6 +18,8 @@ const tripSchema = new Schema({
         type: Date
     },
 
+    backgroundImg: "",
+
     users: [{
         type: Schema.Types.ObjectId,
         ref: "User", 

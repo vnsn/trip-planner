@@ -25,7 +25,7 @@ function TripsList(props) {
 
     return (
         <div className = "trips-list">
-            /trip list/
+            {/* /trip list/ */}
             <h2>My Trips</h2>
             {dataList}
         </div>

@@ -1,10 +1,9 @@
 import React from 'react';
 
 function TripForm(props) {
-    const { name, startDate, endDate } = props.inputs;
+    const { name, startDate, endDate, backgroundImg } = props.inputs;
     return (
         <form onSubmit={props.createTrip} className='genForm' >
-            /trip form/
             <h2>+ New Trip</h2>
             {this && <button name='trip' className='closeButton' onClick={this.props.closeForm}>&times;</button>}
             {props.noName ? <p className='red'>Please enter a trip name</p> : null}
@@ -15,7 +14,9 @@ function TripForm(props) {
             <input onChange={props.handleChange} name="startDate" value={startDate} type="date" />
             <label className='endDate'>End Date</label>
             <input onChange={props.handleChange} name="endDate" value={endDate} type="date" />
-            <button>Submit</button>
+            <label>Background Image (url)</label>
+            <input onChange={props.handleChange} name="backgroundImg" value={backgroundImg} placeholder="https://unsplash.com/beautiful-photo" type="url"/>
+            <button className='submitButton'>Submit</button>
         </form>
     )
 }

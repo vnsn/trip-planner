@@ -62,7 +62,7 @@ class Login extends Component {
             if (this.props.isSignup) {
                 errMsg = "Username already taken";
             } else {
-                errMsg = "Invalid username or password!";
+                errMsg = "Invalid username or password...";
             }
         } else if (authErrCode > 499) {
             errMsg = "Server error!";
