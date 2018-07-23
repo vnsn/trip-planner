@@ -191,8 +191,13 @@ button {
     border: 1px solid #aaa;
     border-radius: .3em;
     padding: 1em;
-    /* width: 400px; */
+    width: 90vw;
     background: #fff;
+}
+@media (min-width: 768px) {
+    .loginForm {
+        width: 400px;
+    }
 }
 .loginForm > * {
     font-size: 1em;
